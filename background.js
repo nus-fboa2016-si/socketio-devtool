@@ -9,9 +9,11 @@ chrome.runtime.onConnect.addListener(function (port) {
       connections[message.tabId] = port;
       //alert('tab sent' + message.tabId + port.name);
     }else if(message.name == 'log'){
-      console.log('message', message.msg);
+      console.log('LOG: ', message);
       //alert('message ' + message.msg);
       //chrome.tabs.executeScript(message.tabId, {file: message.script});
+    }else if(message.name == 'error'){
+      console.error(message.message);
     }
   };
 

@@ -1,0 +1,27 @@
+{
+  "name": "socketio-devtool",
+  "version": "0.0.1",
+  "description": "chrome web-dev tool for socket.io",
+  "main": "manifest.json",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nus-fboa2016-si/socketio-devtool.git"
+  },
+  "author": "whattokingu <zhengweihan.91@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nus-fboa2016-si/socketio-devtool/issues"
+  },
+  "homepage": "https://github.com/nus-fboa2016-si/socketio-devtool#readme",
+  "dependencies": {
+    "component-emitter": "^1.2.0"
+  },
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "gulp": "^3.9.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
