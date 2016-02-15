@@ -5,6 +5,6 @@ var panels = chrome && chrome.devtools && chrome.devtools.panels;
   var panel = panels.create(
     "TEST2",
     "icon.png",
-    "panel.html"
+    "panel/panel.html"
   );
 

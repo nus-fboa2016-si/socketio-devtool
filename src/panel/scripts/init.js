@@ -16,7 +16,7 @@ backgroundPageConnection.postMessage({
 
 //get the script to inject to inspected page and inject it via eval().
 var xhr = new XMLHttpRequest();
-xhr.open('GET', chrome.extension.getURL('/detectIO.js'), false);
+xhr.open('GET', chrome.extension.getURL('../../injected_scripts/detectIO.js'), false);
 xhr.send();
 var script = xhr.responseText;
 chrome.devtools.inspectedWindow.eval(script);
@@ -56,7 +56,7 @@ var handleConnect =  function(data) {
     //io is global
     messenger.emit('io', 'global-io');
     var xhr = new XMLHttpRequest();
-    xhr.open('GET', chrome.extension.getURL('/dist/detectIOProps.js'), false);
+    xhr.open('GET', chrome.extension.getURL('/dist/src/injected_scripts/detectIOProps.js'), false);
     xhr.send();
     var script = xhr.responseText;
     chrome.devtools.inspectedWindow.eval(script);
