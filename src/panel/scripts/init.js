@@ -1,6 +1,8 @@
 var Emitter = require('component-emitter');
 var messenger = {};
+var logger = {};
 Emitter(messenger);
+Emitter(logger);
 
 //connect to background.js with name 'devtool-page'
 var backgroundPageConnection = chrome.runtime.connect({
@@ -71,4 +73,13 @@ var handleManager = function(data){
   });
 };
 
+
+logger.on('log', function(msg){
+  backgroundPageConnection.postMessage({
+    name: 'log',
+    message: msg
+  });
+});
 window.messenger = messenger;
+
+window.logger = logger;
