@@ -38,6 +38,7 @@ backgroundPageConnection.onMessage.addListener(function(message) {
       case 'manager':
         handleManager(message.message);
         break;
+      case 'packet': handlePacket({manager: message.manager, message: message.message}); break;
       default:
         break;
     }
@@ -70,6 +71,14 @@ var handleManager = function(data){
   backgroundPageConnection.postMessage({
     name: 'log',
     message: 'Manager detected: ' + data
+  });
+};
+
+var handlePacket = function(data){
+  messenger.emit('packet', data);
+  backgroundPageConnection.postMessage({
+    name: 'log',
+    message: 'packet from: ' + data.manager + ', data: ' + data.message
   });
 };
 
