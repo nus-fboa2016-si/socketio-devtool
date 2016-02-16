@@ -8,6 +8,9 @@
     if(io.managers.hasOwnProperty(manager)) {
       console.log(manager);
       window.postMessage({type: 'socketiodev', data: {type: 'manager', message: manager}}, '*');
+      io.managers[manager].engine.on('packetCreate', function(msg){
+        window.postMessage({type: 'socketiodev', data: {type: 'message', message: msg}}, '*');
+      });
     }
   }
 
