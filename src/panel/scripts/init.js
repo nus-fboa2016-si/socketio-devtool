@@ -38,7 +38,8 @@ backgroundPageConnection.onMessage.addListener(function(message) {
       case 'manager':
         handleManager(message.message);
         break;
-      case 'packet': handlePacket({manager: message.manager, message: message.message}); break;
+      case 'packetCreate': handlePacketCreate({manager: message.manager, message: message.message}); break;
+      case 'packetRcv': handlePacketRcv({manager: message.manager, message: message.message}); break;
       default:
         break;
     }
@@ -74,14 +75,20 @@ var handleManager = function(data){
   });
 };
 
-var handlePacket = function(data){
-  messenger.emit('packet', data);
+var handlePacketCreate = function(data){
+  messenger.emit('packetCreate', data);
+  backgroundPageConnection.postMessage({
+    name: 'log',
+    message: 'packet By: ' + data.manager + ', data: ' + data.message
+  });
+};
+var handlePacketRcv = function(data){
+  messenger.emit('packetRcv', data);
   backgroundPageConnection.postMessage({
     name: 'log',
     message: 'packet from: ' + data.manager + ', data: ' + data.message
   });
 };
-
 
 logger.on('log', function(msg){
   backgroundPageConnection.postMessage({
