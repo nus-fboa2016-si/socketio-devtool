@@ -39,7 +39,7 @@ backgroundPageConnection.onMessage.addListener(function(message) {
         handleManager(message.message);
         break;
       case 'socket':
-        handleSocket(message.message);
+        handleSocket({manager: message.manager, message: message.message});
         break;
       case 'packetCreate':
         handlePacketCreate({manager: message.manager, message: message.message});
