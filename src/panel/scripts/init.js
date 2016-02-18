@@ -38,8 +38,15 @@ backgroundPageConnection.onMessage.addListener(function(message) {
       case 'manager':
         handleManager(message.message);
         break;
-      case 'packetCreate': handlePacketCreate({manager: message.manager, message: message.message}); break;
-      case 'packetRcv': handlePacketRcv({manager: message.manager, message: message.message}); break;
+      case 'socket':
+        handleSocket(message.message);
+        break;
+      case 'packetCreate':
+        handlePacketCreate({manager: message.manager, message: message.message});
+        break;
+      case 'packetRcv':
+        handlePacketRcv({manager: message.manager, message: message.message});
+        break;
       default:
         break;
     }
@@ -73,6 +80,9 @@ var handleManager = function(data){
     name: 'log',
     message: 'Manager detected: ' + data
   });
+};
+var handleSocket = function(data){
+  messenger.emit('socket', data);
 };
 
 var handlePacketCreate = function(data){

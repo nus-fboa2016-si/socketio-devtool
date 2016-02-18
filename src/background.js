@@ -1,13 +1,18 @@
 
 var openCount = 0;
 var connections = {};
-
+var pollCount = function(){
+  console.log('open:', openCount);
+  window.setTimeout(pollCount, 5000);
+};
+pollCount();
 //listen to connection from devtool page.
 chrome.runtime.onConnect.addListener(function (port) {
+  openCount++;
   var extensionListener = function(message, sender, sendResponse){
     if(message.name == 'init'){
       connections[message.tabId] = port;
-      //alert('tab sent' + message.tabId + port.name);
+      console.log('init', port);
     }else if(message.name == 'log'){
       console.log('LOG: ', message);
       //alert('message ' + message.msg);
@@ -20,8 +25,8 @@ chrome.runtime.onConnect.addListener(function (port) {
   //listen to messages from messages from devtool pages
   port.onMessage.addListener(extensionListener);
   port.onDisconnect.addListener(function(port){
-    port.onmessage.removeListener(extensionListener);
-
+    port.onMessage.removeListener(extensionListener);
+    openCount--;
     for (tab in connections){
       if(connections[tab] == port){
         alert('tab broken');
