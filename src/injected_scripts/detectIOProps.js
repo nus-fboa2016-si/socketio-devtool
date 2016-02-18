@@ -19,7 +19,7 @@
         console.log('skt', skt);
         if(sockets.hasOwnProperty(skt)){
           console.log('posting');
-          window.postMessage({type: 'socketiodev', data: {type: 'socket', manager: manager, socket: skt}}, '*');
+          window.postMessage({type: 'socketiodev', data: {type: 'socket', manager: manager, message: skt}}, '*');
         }
       }
     }
