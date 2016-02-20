@@ -14,7 +14,7 @@ chrome.runtime.onConnect.addListener(function (port) {
       connections[message.tabId] = port;
       console.log('init', port);
     }else if(message.name == 'log'){
-      console.log('LOG: ', message);
+      console.log('LOG: ', message.message);
       //alert('message ' + message.msg);
       //chrome.tabs.executeScript(message.tabId, {file: message.script});
     }else if(message.name == 'error'){
@@ -29,7 +29,6 @@ chrome.runtime.onConnect.addListener(function (port) {
     openCount--;
     for (tab in connections){
       if(connections[tab] == port){
-        alert('tab broken');
         delete connections[tab];
         break;
       }

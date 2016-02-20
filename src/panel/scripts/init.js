@@ -1,13 +1,14 @@
-var Emitter = require('component-emitter');
-var messenger = {};
-var logger = {};
-Emitter(messenger);
-Emitter(logger);
 
 //connect to background.js with name 'devtool-page'
 var backgroundPageConnection = chrome.runtime.connect({
   name: "devtool-page"
 });
+
+var Emitter = require('component-emitter');
+var messenger = {};
+var logger = {};
+Emitter(messenger);
+Emitter(logger);
 
 //tells background.js which tab is connected to this devtool page,
 //so it can route the messages correctly
@@ -27,10 +28,10 @@ chrome.devtools.inspectedWindow.eval(script);
 //listen to whether socket.io is running on inspected page.
 backgroundPageConnection.onMessage.addListener(function(message) {
   try {
-    backgroundPageConnection.postMessage({
-      name: 'log',
-      message: message
-    });
+    //backgroundPageConnection.postMessage({
+    //  name: 'log',
+    //  message: message
+    //});
     switch (message.type) {
       case 'connect':
         handleConnect(message.message);
@@ -87,17 +88,17 @@ var handleSocket = function(data){
 
 var handlePacketCreate = function(data){
   messenger.emit('packetCreate', data);
-  backgroundPageConnection.postMessage({
-    name: 'log',
-    message: 'packet By: ' + data.manager + ', data: ' + data.message
-  });
+  //backgroundPageConnection.postMessage({
+  //  name: 'log',
+  //  message: 'packet By: ' + data.manager + ', data: ' + data.message
+  //});
 };
 var handlePacketRcv = function(data){
   messenger.emit('packetRcv', data);
-  backgroundPageConnection.postMessage({
-    name: 'log',
-    message: 'packet from: ' + data.manager + ', data: ' + data.message
-  });
+  //backgroundPageConnection.postMessage({
+  //  name: 'log',
+  //  message: 'packet from: ' + data.manager + ', data: ' + data.message
+  //});
 };
 
 logger.on('log', function(msg){

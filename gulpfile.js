@@ -2,7 +2,7 @@ var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var gulp = require('gulp');
 
-var files = ['./src/injected_scripts/detectIOProps.js', './src/panel/scripts/init.js', './src/panel/scripts/devtool.js'];
+var files = ['./src/injected_scripts/detectIOProps.js', './src/panel/scripts/init.js', './src/panel/scripts/devtool.js', './src/panel/scripts/parser.js'];
 
 gulp.task('JS', function(){
   for(file in files) {
