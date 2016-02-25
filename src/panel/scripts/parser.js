@@ -21,7 +21,7 @@ Parser.prototype.decode= function(packet, fn){
 Parser.prototype.handleMessageDecode = function(packet, fn){
   var decoderListen = function(decodedPkt){
     if(fn) fn(packet.manager, decodedPkt);
-    this.decoder.removeListener(decoderListen);
+    this.decoder.removeListener('decoded', decoderListen);
   }.bind(this);
   this.decoder.on('decoded', decoderListen);
   this.decoder.add(packet.message.data);
