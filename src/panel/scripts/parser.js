@@ -1,6 +1,6 @@
 var siParser = require('socket.io-parser');
 
-window.logger = logger;
+
 
 var Parser = function(){
   if(!(this instanceof Parser)) return new Parser();
@@ -9,7 +9,6 @@ var Parser = function(){
 };
 
 Parser.prototype.decode= function(packet, fn){
-  logger.emit('log', 'in decode');
   switch(packet.message.type){
     case 'message': this.handleMessageDecode(packet, fn); break;
 

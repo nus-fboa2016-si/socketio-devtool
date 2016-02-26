@@ -1,9 +1,9 @@
 (function(){
   var loggedManagers = {};
   var init = function() {
-    //console.log('running');
+    console.log('running');
     var io = window.io;
-    //console.log(io.managers);
+    console.log(io.managers);
     for (manager in io.managers) {
       if (io.managers.hasOwnProperty(manager) && !loggedManagers[io.managers[manager].engine.id]) {
         loggedManagers[io.managers[manager].engine.id] = io.managers[manager];

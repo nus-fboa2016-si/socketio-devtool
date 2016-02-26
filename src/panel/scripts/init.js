@@ -6,9 +6,8 @@ var backgroundPageConnection = chrome.runtime.connect({
 
 var Emitter = require('component-emitter');
 var messenger = {};
-var logger = {};
 Emitter(messenger);
-Emitter(logger);
+
 
 //tells background.js which tab is connected to this devtool page,
 //so it can route the messages correctly
@@ -28,10 +27,6 @@ chrome.devtools.inspectedWindow.eval(script);
 //listen to whether socket.io is running on inspected page.
 backgroundPageConnection.onMessage.addListener(function(message) {
   try {
-    //backgroundPageConnection.postMessage({
-    //  name: 'log',
-    //  message: message
-    //});
     switch (message.type) {
       case 'connect':
         handleConnect(message.message);
@@ -52,11 +47,7 @@ backgroundPageConnection.onMessage.addListener(function(message) {
         break;
     }
   } catch (e) {
-    backgroundPageConnection.postMessage({
-      name: 'error',
-      message: e
-    });
-    document.getElementById('hello').innerText = 'error';
+   console.log(e);
   }
 });
 
@@ -77,38 +68,21 @@ var handleConnect =  function(data) {
 
 var handleManager = function(data){
   messenger.emit('manager', data);
-  backgroundPageConnection.postMessage({
-    name: 'log',
-    message: 'Manager detected: ' + data
-  });
+  console.log('manager detected:' + data);
 };
 var handleSocket = function(data){
   messenger.emit('socket', data);
 };
 
 var handlePacketCreate = function(data){
-  data.timestamp = new Date().now();
+  data.timestamp = Date.now();
   messenger.emit('packetCreate', data);
-  //backgroundPageConnection.postMessage({
-  //  name: 'log',
-  //  message: 'packet By: ' + data.manager + ', data: ' + data.message
-  //});
+
 };
 var handlePacketRcv = function(data){
-  data.timestamp = new Date().now();
+  data.timestamp = Date.now();
   messenger.emit('packetRcv', data);
-  //backgroundPageConnection.postMessage({
-  //  name: 'log',
-  //  message: 'packet from: ' + data.manager + ', data: ' + data.message
-  //});
 };
 
-logger.on('log', function(msg){
-  backgroundPageConnection.postMessage({
-    name: 'log',
-    message: msg
-  });
-});
-window.messenger = messenger;
 
-window.logger = logger;
+window.messenger = messenger;

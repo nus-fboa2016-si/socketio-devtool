@@ -24,34 +24,34 @@ if (window.messenger) {
     var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
       if (data.type !== 'ping') {
-        // window.logger.emit('log', 'adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
+        // console.log('adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
         var packet = constructPacket(data.data[0], data.data[1], data.type, true, timestamp);
         addPacketToSocket(manager, data.nsp, packet);
 
-        // window.logger.emit('log', getPackets(manager, data.nsp));
-        window.logger.emit('log', 'isActive: ');
-        window.logger.emit('log', isActive(manager, data.nsp));
+        // console.log(getPackets(manager, data.nsp));
+        console.log('isActive: ');
+        console.log(isActive(manager, data.nsp));
 
         if (isActive(manager, data.nsp)) {
           var packets = getPackets(manager, data.nsp);
           displayPacketList(packets);
         }
       } else {
-        window.logger.emit('log', 'ping packets are ignored');
+        console.log('ping packets are ignored');
       }
     });
   });
 
   messenger.on('packetRcv', function(data) {
-    window.logger.emit('log', 'RECEIVING PACKET, starting parser');
-    window.logger.emit('log', data);
+    console.log('RECEIVING PACKET, starting parser');
+    console.log(data);
     // var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
-      window.logger.emit('log', 'After parsing');
-      window.logger.emit('log', data);
+     console.log('After parsing');
+      console.log(data);
     //   if (data.type !== 'ping') {
-    //     window.logger.emit('log', 'adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
+    //     console.log('adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
     //     var packet = constructPacket(data.data[0], data.data[1], data.type, false, timestamp);
     //     addPacketToSocket(manager, data.nsp, packet);
@@ -61,13 +61,10 @@ if (window.messenger) {
     //       displayPacketList(packets);
     //     }
     //   } else {
-    //     window.logger.emit('log', 'ping packets are ignored');
+    //     console.log('ping packets are ignored');
     //   }
     });
   });
-
-} else {
-
 }
 
 function addSocketToManager(managerName, socket) {
@@ -110,8 +107,8 @@ function addPacketToSocket(managerName, socketName, packet) {
     packets.push(packet);
   }
 
-  window.logger.emit('log', 'Packet added!');
-  window.logger.emit('log', getPackets(managerName, socketName));
+  console.log('Packet added!');
+  console.log(getPackets(managerName, socketName));
 }
 
 function packetsComparator(packet1, packet2) {
@@ -146,8 +143,8 @@ function displayManagers() {
 
     if (!isActive(managerName, socketName)) {
       var packets = getPackets(managerName, socketName);
-      window.logger.emit('log', "PACKETS CHOSEN");
-      window.logger.emit('log', packets);
+      console.log("PACKETS CHOSEN");
+      console.log(packets);
       packets.sort(packetsComparator);
       displayPacketList(packets);
 

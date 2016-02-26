@@ -13,12 +13,6 @@ chrome.runtime.onConnect.addListener(function (port) {
     if(message.name == 'init'){
       connections[message.tabId] = port;
       console.log('init', port);
-    }else if(message.name == 'log'){
-      console.log('LOG: ', message.message);
-      //alert('message ' + message.msg);
-      //chrome.tabs.executeScript(message.tabId, {file: message.script});
-    }else if(message.name == 'error'){
-      console.error(message.message);
     }
   };
 
