@@ -26,6 +26,7 @@ chrome.devtools.inspectedWindow.eval(script);
 
 //listen to whether socket.io is running on inspected page.
 backgroundPageConnection.onMessage.addListener(function(message) {
+  //console.log('msssgg:', message);
   try {
     switch (message.type) {
       case 'connect':
@@ -38,10 +39,10 @@ backgroundPageConnection.onMessage.addListener(function(message) {
         handleSocket({manager: message.manager, message: message.message});
         break;
       case 'packetCreate':
-        handlePacketCreate({manager: message.manager, message: message.message, timestamp: message.timestamp});
+        handlePacketCreate({manager: message.manager, message: message.message});
         break;
       case 'packetRcv':
-        handlePacketRcv({manager: message.manager, message: message.message, timestamp: message.timestamp});
+        handlePacketRcv({manager: message.manager, message: message.message});
         break;
       default:
         break;
@@ -76,11 +77,13 @@ var handleSocket = function(data){
 
 var handlePacketCreate = function(data){
   data.timestamp = Date.now();
+  //console.log('packetcreate:', data);
   messenger.emit('packetCreate', data);
 
 };
 var handlePacketRcv = function(data){
   data.timestamp = Date.now();
+  //console.log('packetrcv:', data);
   messenger.emit('packetRcv', data);
 };
 
