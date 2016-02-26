@@ -19,10 +19,13 @@ Parser.prototype.decode= function(packet, fn){
 };
 
 Parser.prototype.handleMessageDecode = function(packet, fn){
-  var decoderListen = function(decodedPkt){
+  var timestamp = new Date().now();
+  var decoderListen = function(timestamp, decodedPkt){
+    decodedPkt._timestamp = timestamp;
     if(fn) fn(packet.manager, decodedPkt);
     this.decoder.removeListener('decoded', decoderListen);
-  }.bind(this);
+  }.bind(this, timestamp);
+
   this.decoder.on('decoded', decoderListen);
   this.decoder.add(packet.message.data);
 
