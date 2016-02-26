@@ -47,8 +47,8 @@ backgroundPageConnection.onMessage.addListener(function(message) {
       default:
         break;
     }
-  } catch (e) {
-   console.log(e);
+  } catch (err) {
+    console.error(err);
   }
 });
 
