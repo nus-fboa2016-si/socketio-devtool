@@ -18,12 +18,12 @@ if (window.messenger) {
   });
 
   messenger.on('packetCreate', function(data) {
+    var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
       if (data.type !== 'ping') {
         window.logger.emit('log', 'adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
-        addCreatedPacketToSocket(manager, data.nsp, data.type, data.data);
-        // window.logger.emit('log', 'rerender created packets');
-        renderCreatedPackets(manager, '/');
+        addCreatedPacketToSocket(manager, data.nsp, data.type, data.data, timestamp);
+        window.logger.emit('log', getSocket(manager, data.nsp));
       } else {
         window.logger.emit('log', 'ping packets are ignored');
       }
@@ -31,10 +31,11 @@ if (window.messenger) {
   });
 
   messenger.on('packetRcv', function(data) {
+    var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
       if (data.type !== 'ping') {
         window.logger.emit('log', 'adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
-        addReceivedPacketToSocket(manager, data.nsp, data.type, data.data);
+        addReceivedPacketToSocket(manager, data.nsp, data.type, data.data, timestamp);
       }
     });
   });
@@ -55,7 +56,7 @@ if (window.messenger) {
 function addSocketToManager(managerName, socket) {
   if (managers[managerName]) {
     if (!managers[managerName][socket]) {
-      managers[managerName][socket] = { 'created': {}, 'received': {} };
+      managers[managerName][socket] = [];
     }
   }
 }
@@ -68,44 +69,53 @@ function getSocket(managerName, socketName) {
   return managers[managerName][socketName];
 }
 
-function addCreatedPacketToSocket(managerName, socketName, type, packet) {
-  var socket = getSocket(managerName, socketName);  
-  if (socket) {
-    if (!socket['created'][type]) {
-      socket['created'][type] = [];
-    }
-    socket['created'][type].push(packet);
-  }
+function constructPacket(event, data, type, isCreated, timestamp) {
+  var packet = {};
+  packet['event'] = event;
+  packet['data'] = data;
+  packet['type'] = type;
+  packet['_isCreated'] = isCreated;
+  packet['_timestamp'] = timestamp;
+  return packet;
 }
 
-function addReceivedPacketToSocket(managerName, socketName, type, packet) {
-  var socket = getSocket(managerName, socketName);  
-  if (socket) {
-    if (!socket['received'][type]) {
-      socket['received'][type] = [];
-    }
-    socket['received'][type].push(packet);
-  }
-}
-
-function getCreatedPackets(managerName, socketName) {
-  var socket = getSocket(managerName, socketName);
-  window.logger.emit('log', socket);
-  if (socket) {
-    if (socket['created']) {
-      return socket['created'];
-    }
-  }
-}
-
-function getReceivedPackets(managerName, socketName) {
+function addCreatedPacketToSocket(managerName, socketName, type, packet, timestamp) {
   var socket = getSocket(managerName, socketName);
   if (socket) {
-    if (socket['received']) {
-      return socket['received'];
-    }
+    var packet = constructPacket(packet[0], packet[1], type, true, timestamp);
+    socket.push(packet);
   }
 }
+
+function addReceivedPacketToSocket(managerName, socketName, type, packet, timestamp) {
+  var socket = getSocket(managerName, socketName);
+  if (socket) {
+    var packet = constructPacket(packet[0], packet[1], type, false, timestamp);
+    socket.push(packet);
+  }
+}
+
+function packetsComparator(packet1, packet2) {
+  return packet1._timestamp - packet2._timestamp;
+}
+
+// function getCreatedPackets(managerName, socketName) {
+//   var socket = getSocket(managerName, socketName);
+//   if (socket) {
+//     if (socket['created']) {
+//       return socket['created'];
+//     }
+//   }
+// }
+
+// function getReceivedPackets(managerName, socketName) {
+//   var socket = getSocket(managerName, socketName);
+//   if (socket) {
+//     if (socket['received']) {
+//       return socket['received'];
+//     }
+//   }
+// }
 
 function renderManagers() {
   $("#manager").append("<ul>");
