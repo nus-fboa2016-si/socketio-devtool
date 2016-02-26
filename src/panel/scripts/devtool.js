@@ -3,27 +3,40 @@ var $ = require('jquery');
 var parser = window.parser;
 var managers = {};
 
+var selectedManager = null;
+var selectedSocket = null;
+var displayedPackets = [];
+
 if (window.messenger) {
   messenger.on('manager', function(data) {
     if (managers[data] === undefined) {
       managers[data] = {};
     }
-    renderManagers();
-    window.logger.emit('log', 'adding manager');
+    displayManagers();
   });
 
   messenger.on('socket', function(data) {
     addSocketToManager(data.manager, data.message);
-    window.logger.emit('log', 'adding socket ' + data.message + ' to manager ' + data.manager);
+    displayManagers();
   });
 
   messenger.on('packetCreate', function(data) {
     var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
       if (data.type !== 'ping') {
-        window.logger.emit('log', 'adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
-        addCreatedPacketToSocket(manager, data.nsp, data.type, data.data, timestamp);
-        window.logger.emit('log', getSocket(manager, data.nsp));
+        // window.logger.emit('log', 'adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
+
+        var packet = constructPacket(data.data[0], data.data[1], data.type, true, timestamp);
+        addPacketToSocket(manager, data.nsp, packet);
+
+        // window.logger.emit('log', getPackets(manager, data.nsp));
+        window.logger.emit('log', 'isActive: ');
+        window.logger.emit('log', isActive(manager, data.nsp));
+        
+        if (isActive(manager, data.nsp)) {
+          var packets = getPackets(manager, data.nsp);
+          displayPacketList(packets);
+        }
       } else {
         window.logger.emit('log', 'ping packets are ignored');
       }
@@ -31,26 +44,30 @@ if (window.messenger) {
   });
 
   messenger.on('packetRcv', function(data) {
-    var timestamp = data.timestamp;
+    window.logger.emit('log', 'RECEIVING PACKET, starting parser');
+    window.logger.emit('log', data);
+    // var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
-      if (data.type !== 'ping') {
-        window.logger.emit('log', 'adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
-        addReceivedPacketToSocket(manager, data.nsp, data.type, data.data, timestamp);
-      }
+      window.logger.emit('log', 'After parsing');
+      window.logger.emit('log', data);
+    //   if (data.type !== 'ping') {
+    //     window.logger.emit('log', 'adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
+
+    //     var packet = constructPacket(data.data[0], data.data[1], data.type, false, timestamp);
+    //     addPacketToSocket(manager, data.nsp, packet);
+
+    //     if (isActive(manager, data.nsp)) {
+    //       var packets = getPackets(manager, data.nsp);
+    //       displayPacketList(packets);
+    //     }
+    //   } else {
+    //     window.logger.emit('log', 'ping packets are ignored');
+    //   }
     });
   });
 
-  document.getElementById('hello').innerText = 'messenger detected';
-  messenger.on('io', function(io){
-    if(io == 'no-io'){
-      document.getElementById('hello2').innerText = 'no io detected';
-    }else if(io == 'global-io'){
-      document.getElementById('hello2').innerText = 'global io detected';
-    }
-  })
-
 } else {
-  document.getElementById('hello').innerText ='no messenger';
+
 }
 
 function addSocketToManager(managerName, socket) {
@@ -61,7 +78,15 @@ function addSocketToManager(managerName, socket) {
   }
 }
 
-function getSocket(managerName, socketName) {
+function getSockets(manager) {
+  var sockets = [];
+  for (var socketName in manager) {
+    sockets.push(socketName);
+  }
+  return sockets;
+}
+
+function getPackets(managerName, socketName) {
   if (managers[managerName] === undefined || managers[managerName][socketName] === undefined) {
     return undefined;
   }
@@ -79,43 +104,65 @@ function constructPacket(event, data, type, isCreated, timestamp) {
   return packet;
 }
 
-function addCreatedPacketToSocket(managerName, socketName, type, packet, timestamp) {
-  var socket = getSocket(managerName, socketName);
-  if (socket) {
-    var packet = constructPacket(packet[0], packet[1], type, true, timestamp);
-    socket.push(packet);
+function addPacketToSocket(managerName, socketName, packet) {
+  var packets = getPackets(managerName, socketName);
+  if (packets) {
+    packets.push(packet);
   }
-}
 
-function addReceivedPacketToSocket(managerName, socketName, type, packet, timestamp) {
-  var socket = getSocket(managerName, socketName);
-  if (socket) {
-    var packet = constructPacket(packet[0], packet[1], type, false, timestamp);
-    socket.push(packet);
-  }
+  window.logger.emit('log', 'Packet added!');
+  window.logger.emit('log', getPackets(managerName, socketName));
 }
 
 function packetsComparator(packet1, packet2) {
   return packet1._timestamp - packet2._timestamp;
 }
 
-// function getCreatedPackets(managerName, socketName) {
-//   var socket = getSocket(managerName, socketName);
-//   if (socket) {
-//     if (socket['created']) {
-//       return socket['created'];
-//     }
-//   }
-// }
+function isActive(managerName, socketName) {
+  if (!selectedManager || !selectedSocket) {
+    return false;
+  }
 
-// function getReceivedPackets(managerName, socketName) {
-//   var socket = getSocket(managerName, socketName);
-//   if (socket) {
-//     if (socket['received']) {
-//       return socket['received'];
-//     }
-//   }
-// }
+  return (selectedManager === managerName && selectedSocket === socketName);
+}
+
+function displayManagers() {
+  $("#manager").html('');
+  for (var managerName in managers) {
+    $("#manager").append('<div>' + managerName);
+
+    var sockets = getSockets(managers[managerName]);
+    for (var i = 0; i < sockets.length; i++) {
+      $("#manager").append('<ul>');
+      $("#manager").append('<li class="sockets" id="' + managerName + '">' + sockets[i] + '</li>');
+      $("#manager").append('</ul');
+    }
+    $("#manager").append('</div>');
+  }
+
+  $(".sockets").on("click", function() {
+    var managerName = $(this).attr('id');
+    var socketName = $(this).text();
+
+    if (!isActive(managerName, socketName)) {
+      var packets = getPackets(managerName, socketName);
+      window.logger.emit('log', "PACKETS CHOSEN");
+      window.logger.emit('log', packets);
+      packets.sort(packetsComparator);
+      displayPacketList(packets);
+
+      selectedManager = managerName;
+      selectedSocket = socketName;
+    }
+  });
+}
+
+function displayPacketList(packets) {
+  $("#packet").html('');
+  for (var i = 0; i < packets.length; i++) {
+    $("#packet").append('<div>' + packets[i].event);
+  }
+}
 
 function renderManagers() {
   $("#manager").append("<ul>");
