@@ -43,10 +43,10 @@ backgroundPageConnection.onMessage.addListener(function(message) {
         handleSocket({manager: message.manager, message: message.message});
         break;
       case 'packetCreate':
-        handlePacketCreate({manager: message.manager, message: message.message});
+        handlePacketCreate({manager: message.manager, message: message.message, timestamp: message.timestamp});
         break;
       case 'packetRcv':
-        handlePacketRcv({manager: message.manager, message: message.message});
+        handlePacketRcv({manager: message.manager, message: message.message, timestamp: message.timestamp});
         break;
       default:
         break;
@@ -87,6 +87,7 @@ var handleSocket = function(data){
 };
 
 var handlePacketCreate = function(data){
+  data.timestamp = new Date().now();
   messenger.emit('packetCreate', data);
   //backgroundPageConnection.postMessage({
   //  name: 'log',
@@ -94,6 +95,7 @@ var handlePacketCreate = function(data){
   //});
 };
 var handlePacketRcv = function(data){
+  data.timestamp = new Date().now();
   messenger.emit('packetRcv', data);
   //backgroundPageConnection.postMessage({
   //  name: 'log',
