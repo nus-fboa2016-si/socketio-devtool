@@ -1,24 +1,27 @@
 html, body {
   height: 100%;
   width: 100%;
-  font-family: monospace; }
-
-.container {
+  font-family: monospace;
+}
+.container{
   height: 100%;
   width: 100%;
   display: flex;
-  flex-direction: row; }
+  flex-direction: row;
+}
 
-.column {
+.column{
   width: 33%;
   height: 100%;
-  flex-grow: 1;
-  border: 1px groove #333333; }
-  .column .header {
+  flex-grow:1;
+  border: 1px groove #333333;
+  .header{
     font-size: 1.1rem;
     background-color: cornsilk;
     border-bottom: 1px solid black;
     text-align: center;
-    padding: 0.5rem 0; }
-
-/*# sourceMappingURL=panel.css.map */
+    padding: 0.5rem 0;
+  }
+}
+#manager{
+}

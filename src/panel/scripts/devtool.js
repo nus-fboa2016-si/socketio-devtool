@@ -108,8 +108,6 @@ function getReceivedPackets(managerName, socketName) {
 }
 
 function renderManagers() {
-  $("#manager").html('');
-  $("#manager").append("List of managers:");
   $("#manager").append("<ul>");
   for (var manager in managers) {
     $("#manager").append('<li class="manager" id="' + manager + '"">' + manager + '</li>');
