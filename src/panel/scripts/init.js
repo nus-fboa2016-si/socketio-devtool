@@ -43,10 +43,10 @@ backgroundPageConnection.onMessage.addListener(function(message) {
         handleSocket({manager: message.manager, message: message.message});
         break;
       case 'packetCreate':
-        handlePacketCreate({manager: message.manager, message: message.message});
+        handlePacketCreate({manager: message.manager, message: message.message, timestamp: message.timestamp});
         break;
       case 'packetRcv':
-        handlePacketRcv({manager: message.manager, message: message.message});
+        handlePacketRcv({manager: message.manager, message: message.message, timestamp: message.timestamp});
         break;
       default:
         break;
