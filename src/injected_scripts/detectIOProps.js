@@ -10,10 +10,10 @@
         console.log(manager);
         window.postMessage({type: 'socketiodev', data: {type: 'manager', message: manager}}, '*');
         io.managers[manager].engine.on('packetCreate', function (msg) {
-          window.postMessage({type: 'socketiodev', data: {type: 'packetCreate', manager: manager, message: msg}}, '*');
+          window.postMessage({type: 'socketiodev', data: {type: 'packetCreate', manager: manager, message: msg, timestamp: Date.now() }}, '*');
         })
         io.managers[manager].engine.on('data', function (msg) {
-          window.postMessage({type: 'socketiodev', data: {type: 'packetRcv', manager: manager, message: msg}}, '*');
+          window.postMessage({type: 'socketiodev', data: {type: 'packetRcv', manager: manager, message: msg, timestamp: Date.now() }}, '*');
         });
         console.log('taking sockets');
         var sockets = io.managers[manager].nsps;
