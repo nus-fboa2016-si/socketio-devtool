@@ -37,6 +37,7 @@ if (window.messenger) {
 
         if (isActive(manager, data.nsp)) {
           var packets = getPackets(manager, data.nsp);
+          packets.sort(packetsComparator);
           displayPacketList(packets);
         }
       } else {
@@ -118,7 +119,7 @@ function addPacketToSocket(managerName, socketName, packet) {
 }
 
 function packetsComparator(packet1, packet2) {
-  return packet1._timestamp - packet2._timestamp;
+  return packet2._timestamp - packet1._timestamp;
 }
 
 function isActive(managerName, socketName) {
@@ -162,19 +163,20 @@ function displayManagers() {
 
 function displayPacketList(packets) {
   $("#packet").html('');
+  displayedPackets = {};
   for (var i = 0; i < packets.length; i++) {
     var packet = packets[i];
     var packetCategory = (packet._isCreated)? "packet-created" : "packet-received";
     $("#packet").append('<div id="' + packet._id + '" class="packets ' + packetCategory + '">' + packet.event);
     $("#packet").append('</div>');
-
-    displayedPackets = {};
     displayedPackets[packet._id] = packet;
   }
 
   $(".packets").on("click", function() {
     var selectedPacket = displayedPackets[$(this).attr('id')];
-    displayPacketContent(packet);
+    console.log("SELECTED PACKET");
+    console.log(selectedPacket);
+    displayPacketContent(selectedPacket);
   });
 }
 
