@@ -26,6 +26,12 @@ if (window.messenger) {
   messenger.on('packetCreate', function(data) {
     var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
+      //console.log('decoded createpkt:', data);
+      // connect packet: ignore it because server would send a confirmation packet if
+      // namespace is valid and we handle it from there
+      if (data.type === 0 ){
+        return;
+      }
       if (data.type !== 'ping') {
         // console.log('adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
@@ -52,11 +58,19 @@ if (window.messenger) {
     // console.log(data);
     var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
-      // console.log('After parsing');
-      // console.log(data);
-
+       //console.log('After parsing');
+       //console.log(data);
+      //error packet. for MVP we ignore it.
+      if(data.type === 4){
+        return;
+      }
+      //connection packet. handle it.
+      if(data.type === 0){
+        messenger.emit('socket', {manager: manager, message: data.nsp});
+        return;
+      }
       if (data.type !== 'ping') {
-        console.log('adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
+        //console.log('adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
         var packet = constructPacket(data.data[0], data.data[1], data.type, false, timestamp);
         addPacketToSocket(manager, data.nsp, packet);
@@ -135,11 +149,11 @@ function isActive(managerName, socketName) {
 function displayManagers() {
   $("#manager").html('');
   for (var managerName in managers) {
-    $("#manager").append('<div>' + managerName);
+    $("#manager").append('<div class="manager-item">' + managerName);
 
     var sockets = getSockets(managers[managerName]);
     for (var i = 0; i < sockets.length; i++) {
-      $("#manager").append('<ul>');
+      $("#manager").append('<ul class="socket-list">');
       $("#manager").append('<li class="sockets" id="' + managerName + '">' + sockets[i] + '</li>');
       $("#manager").append('</ul');
     }
