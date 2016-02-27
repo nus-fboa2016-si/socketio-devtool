@@ -3,9 +3,11 @@ var $ = require('jquery');
 var parser = window.parser;
 var managers = {};
 
+var packetId = 0;
+
 var selectedManager = null;
 var selectedSocket = null;
-var displayedPackets = [];
+var displayedPackets = {};
 
 if (window.messenger) {
   messenger.on('manager', function(data) {
@@ -95,6 +97,8 @@ function getPackets(managerName, socketName) {
 
 function constructPacket(event, data, type, isCreated, timestamp) {
   var packet = {};
+  packetId++;
+  packet['_id'] = packetId;
   packet['event'] = event;
   packet['data'] = data;
   packet['type'] = type;
@@ -161,46 +165,26 @@ function displayPacketList(packets) {
   for (var i = 0; i < packets.length; i++) {
     var packet = packets[i];
     var packetCategory = (packet._isCreated)? "packet-created" : "packet-received";
-
-    $("#packet").append('<div class="packets ' + packetCategory + '">' + packet.event);
+    $("#packet").append('<div id="' + packet._id + '" class="packets ' + packetCategory + '">' + packet.event);
     $("#packet").append('</div>');
+
+    displayedPackets = {};
+    displayedPackets[packet._id] = packet;
   }
+
+  $(".packets").on("click", function() {
+    var selectedPacket = displayedPackets[$(this).attr('id')];
+    displayPacketContent(packet);
+  });
 }
 
-function renderManagers() {
-  $("#manager").append("<ul>");
-  for (var manager in managers) {
-    $("#manager").append('<li class="manager" id="' + manager + '"">' + manager + '</li>');
+function displayPacketContent(packet) {
+  var packetData;
+  if (typeof(packet.data) === 'object') {
+    packetData = JSON.stringify(packet.data, null, 2);
+  } else {
+    packetData = packet.data;
   }
-  $("#manager").append("</ul>");
 
-  $(".manager").on("click", function() {
-    var managerName = $(this).attr('id');
-    renderSockets(managerName);
-  })
-}
-
-function renderSockets(managerName) {
-  $("#socket").html('');
-  $("#socket").append("List of sockets of " + managerName + ":");
-  $("#socket").append("<ul>");
-  var manager = managers[managerName];
-  for (var socket in manager) {
-    $("#socket").append("<li>" + socket + "</li>");
-  }
-  $("#socket").append("</ul>");
-}
-
-function renderCreatedPackets(managerName, socketName) {
-  $("#packet").html('');
-  var packets = getCreatedPackets(managerName, socketName);
-  if (packets) {
-    for (var type in packets) {
-      $("#packet").append(type + ': <br>');
-      for (var i = 0; i < packets[type].length; i++) {
-        var packet = packets[type][i][1];
-        $("#packet").append(packet + "<br>");
-      }
-    }
-  }
+  $("#pkt-content").html('<pre>' + packetData + '</pre>');
 }
