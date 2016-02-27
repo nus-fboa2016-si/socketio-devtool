@@ -8,6 +8,7 @@ var packetId = 0;
 var selectedManager = null;
 var selectedSocket = null;
 var displayedPackets = {};
+var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 if (window.messenger) {
   messenger.on('manager', function(data) {
@@ -62,6 +63,7 @@ if (window.messenger) {
 
         if (isActive(manager, data.nsp)) {
           var packets = getPackets(manager, data.nsp);
+          packets.sort(packetsComparator);
           displayPacketList(packets);
         }  
       } else {
@@ -167,7 +169,8 @@ function displayPacketList(packets) {
   for (var i = 0; i < packets.length; i++) {
     var packet = packets[i];
     var packetCategory = (packet._isCreated)? "packet-created" : "packet-received";
-    $("#packet").append('<div id="' + packet._id + '" class="packets ' + packetCategory + '">' + packet.event);
+    $("#packet").append('<div id="' + packet._id + '" class="packets ' + packetCategory + '">' + convertTimestampToDateString(packet._timestamp) + 
+      '&nbsp;&nbsp;' + packet.event); 
     $("#packet").append('</div>');
     displayedPackets[packet._id] = packet;
   }
@@ -189,4 +192,28 @@ function displayPacketContent(packet) {
   }
 
   $("#pkt-content").html('<pre>' + packetData + '</pre>');
+}
+
+function convertTimestampToDateString(timestamp) {
+  var date = new Date(timestamp);
+
+  var month = months[date.getMonth()];
+  var dayInMonth = date.getDate();
+  if (dayInMonth < 10) {
+    dayInMonth += " ";
+  }
+  var hour = date.getHours();
+  var minute = date.getMinutes();
+  var second = date.getSeconds();
+  if (hour < 10) {
+    hour = "0" + hour;
+  }
+  if (minute < 10) {
+    minute = "0" + minute;
+  }
+  if (second < 10) {
+    second = "0" + second;
+  }
+
+  return month + " " + dayInMonth + " " + hour + ":" + minute + ":" + second;
 }
