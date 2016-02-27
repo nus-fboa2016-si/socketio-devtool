@@ -1,6 +1,7 @@
 html, body {
   height: 100%;
   width: 100%;
+  margin: 0 auto;
   font-family: monospace; }
 
 .container {
@@ -15,10 +16,31 @@ html, body {
   flex-grow: 1;
   border: 1px groove #333333; }
   .column .header {
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     background-color: cornsilk;
     border-bottom: 1px solid black;
     text-align: center;
     padding: 0.5rem 0; }
+
+#manager {
+  margin-left: 1em;
+  margin-top: 1em;
+  font-size: 1rem;
+  overflow-wrap: break-word; }
+  #manager .sockets {
+    margin-left: 1.25em;
+    padding: 0.25em;
+    font-size: 0.9rem; }
+
+#packet {
+  margin-left: 1em;
+  margin-top: 1em; }
+  #packet .packets {
+    padding-bottom: 0.25em;
+    font-size: 1rem; }
+    #packet .packets.packet-created {
+      color: blue; }
+    #packet .packets.packet-received {
+      color: red; }
 
 /*# sourceMappingURL=panel.css.map */
