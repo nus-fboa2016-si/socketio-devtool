@@ -9,7 +9,7 @@ This is a MVP version of the dev tool. To use it:
 5. Navigate to a page using Socket.io and open the Chrome Developer Window, then switch to the `Socket.io` tab
 6. If `io` is detected as a global variable on the page, and sockets have been created, it should show up on under `Managers` tab
 
-
+This is a really really early version of the dev-tool. A lot of things are still broken.
 
 ##Application flow:
 `Manifest.json` declares to Chrome what the application is about.
