@@ -44,25 +44,27 @@ if (window.messenger) {
   });
 
   messenger.on('packetRcv', function(data) {
-    console.log('RECEIVING PACKET, starting parser');
-    console.log(data);
-    // var timestamp = data.timestamp;
+    // console.log('RECEIVING PACKET, starting parser');
+    // console.log(data);
+    var timestamp = data.timestamp;
     parser.decode(data, function(manager, data) {
-     console.log('After parsing');
-      console.log(data);
-    //   if (data.type !== 'ping') {
-    //     console.log('adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
+      // console.log('After parsing');
+      // console.log(data);
 
-    //     var packet = constructPacket(data.data[0], data.data[1], data.type, false, timestamp);
-    //     addPacketToSocket(manager, data.nsp, packet);
+      if (data.type !== 'ping') {
+        console.log('adding received packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
-    //     if (isActive(manager, data.nsp)) {
-    //       var packets = getPackets(manager, data.nsp);
-    //       displayPacketList(packets);
-    //     }
-    //   } else {
-    //     console.log('ping packets are ignored');
-    //   }
+        var packet = constructPacket(data.data[0], data.data[1], data.type, false, timestamp);
+        addPacketToSocket(manager, data.nsp, packet);
+
+        if (isActive(manager, data.nsp)) {
+          var packets = getPackets(manager, data.nsp);
+          displayPacketList(packets);
+        }  
+      } else {
+        console.log('ping packets are ignored');
+      }
+
     });
   });
 }
