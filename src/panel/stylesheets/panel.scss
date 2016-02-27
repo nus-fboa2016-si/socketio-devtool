@@ -1,5 +1,7 @@
-$marginLeft: 1em;
-$marginTop: 1em;
+$marginLeft: 1rem;
+$marginTop: 1rem;
+$padding: 0.8rem;
+$clr-purple: rgb(219, 122, 238);
 
 html, body {
   height: 100%;
@@ -13,6 +15,7 @@ html, body {
   display: flex;
   flex-direction: row;
 }
+$header-ht: 8%;
 
 .column {
   width: 33%;
@@ -25,37 +28,63 @@ html, body {
     border-bottom: 1px solid black;
     text-align: center;
     padding: 0.5rem 0;
+    height: $header-ht;
   }
 }
 
 #manager {
-  margin-left: $marginLeft;
-  margin-top: $marginTop;
-  font-size: 1rem;
+  padding: $padding;
+  font-size: 1.2rem;
   overflow-wrap: break-word;
-
+  height: 100% - $header-ht;
   .sockets {
     margin-left: 1.25em;
     padding: 0.25em;
     font-size: 0.9rem;
+    list-style-type: decimal;
+    cursor: pointer;
+    &:hover{
+      background-color: $clr-purple;
+    }
+    &.selected {
+      background-color: darken($clr-purple, 20%);
+    }
   }
 }
 
 #packet {
   margin-left: $marginLeft;
   margin-top: $marginTop;
-
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100% - $header-ht;
   .packets {
     padding-bottom: 0.25em;
     font-size: 1rem;
+    cursor: pointer;
 
     &.packet-created {
       color: blue;
+      &.selected{
+        background-color: #6699cc;
+        color: darken(blue, 20%);
+      }
     }
 
     &.packet-received {
       color: red;
+      &.selected{
+        background-color: lightcoral;
+        color: darken(red, 20%);
+      }
     }
   }
-  
+}
+
+#pkt-content{
+  height: 100% - $header-ht;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0.5rem;
+  font-size: 1rem;
 }

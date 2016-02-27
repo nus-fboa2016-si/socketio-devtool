@@ -7,6 +7,8 @@ var packetId = 0;
 
 var selectedManager = null;
 var selectedSocket = null;
+var selectedSocketDOM = null;
+var selectedPacketDOM = null;
 var displayedPackets = {};
 var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -149,30 +151,35 @@ function isActive(managerName, socketName) {
 function displayManagers() {
   $("#manager").html('');
   for (var managerName in managers) {
-    $("#manager").append('<div class="manager-item">' + managerName);
 
+    $("#manager").append('<div class="managerItem" >' + managerName + '</div>');
     var sockets = getSockets(managers[managerName]);
-    for (var i = 0; i < sockets.length; i++) {
-      $("#manager").append('<ul class="socket-list">');
-      $("#manager").append('<li class="sockets" id="' + managerName + '">' + sockets[i] + '</li>');
-      $("#manager").append('</ul');
+    $("#manager").append('<ul class="socketList"></ul>');
+    for (socket in sockets) {
+      console.log('appending socket');
+      $("#manager").children('ul.socketList').append('<li class="sockets" id="' + managerName + '">' + sockets[socket] + '</li>');
     }
-    $("#manager").append('</div>');
   }
 
   $(".sockets").on("click", function() {
     var managerName = $(this).attr('id');
     var socketName = $(this).text();
+    $(this).addClass('selected');
+    if(selectedSocketDOM) $(selectedSocketDOM).removeClass('selected');
 
     if (!isActive(managerName, socketName)) {
       var packets = getPackets(managerName, socketName);
       console.log("PACKETS CHOSEN");
       console.log(packets);
-      packets.sort(packetsComparator);
-      displayPacketList(packets);
-
+      if(packets.length === 0){
+        $('#packet').html('no packets to display.');
+      }else {
+        packets.sort(packetsComparator);
+        displayPacketList(packets);
+      }
       selectedManager = managerName;
       selectedSocket = socketName;
+      selectedSocketDOM = this;
     }
   });
 }
@@ -190,10 +197,13 @@ function displayPacketList(packets) {
   }
 
   $(".packets").on("click", function() {
+    $(this).addClass('selected');
+    if(selectedPacketDOM) $(selectedPacketDOM).removeClass('selected');
     var selectedPacket = displayedPackets[$(this).attr('id')];
     console.log("SELECTED PACKET");
     console.log(selectedPacket);
     displayPacketContent(selectedPacket);
+    selectedPacketDOM = this;
   });
 }
 

@@ -20,27 +20,51 @@ html, body {
     background-color: cornsilk;
     border-bottom: 1px solid black;
     text-align: center;
-    padding: 0.5rem 0; }
+    padding: 0.5rem 0;
+    height: 8%; }
 
 #manager {
-  margin-left: 1em;
-  margin-top: 1em;
-  font-size: 1rem;
-  overflow-wrap: break-word; }
+  padding: 0.8rem;
+  font-size: 1.2rem;
+  overflow-wrap: break-word;
+  height: 92%; }
   #manager .sockets {
     margin-left: 1.25em;
     padding: 0.25em;
-    font-size: 0.9rem; }
+    font-size: 0.9rem;
+    list-style-type: decimal;
+    cursor: pointer; }
+    #manager .sockets:hover {
+      background-color: #db7aee; }
+    #manager .sockets.selected {
+      background-color: #c320e2; }
 
 #packet {
-  margin-left: 1em;
-  margin-top: 1em; }
+  margin-left: 1rem;
+  margin-top: 1rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 92%; }
   #packet .packets {
     padding-bottom: 0.25em;
-    font-size: 1rem; }
+    font-size: 1rem;
+    cursor: pointer; }
     #packet .packets.packet-created {
       color: blue; }
+      #packet .packets.packet-created.selected {
+        background-color: #6699cc;
+        color: #000099; }
     #packet .packets.packet-received {
       color: red; }
+      #packet .packets.packet-received.selected {
+        background-color: lightcoral;
+        color: #990000; }
+
+#pkt-content {
+  height: 92%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  margin: 0.5rem;
+  font-size: 1rem; }
 
 /*# sourceMappingURL=panel.css.map */
