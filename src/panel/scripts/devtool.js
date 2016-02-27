@@ -159,7 +159,11 @@ function displayManagers() {
 function displayPacketList(packets) {
   $("#packet").html('');
   for (var i = 0; i < packets.length; i++) {
-    $("#packet").append('<div>' + packets[i].event);
+    var packet = packets[i];
+    var packetCategory = (packet._isCreated)? "packet-created" : "packet-received";
+
+    $("#packet").append('<div class="packets ' + packetCategory + '">' + packet.event);
+    $("#packet").append('</div>');
   }
 }
 
