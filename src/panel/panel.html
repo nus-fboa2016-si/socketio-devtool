@@ -6,15 +6,22 @@
 <body>
   <div class="container">
     <div id="manager-panel" class="column">
-        <div class="header">Managers</div>
+        <div class="header"><span class="header-text">Managers</span></div>
         <div id="manager"></div>
     </div>
     <div id="packet-panel" class="column">
-        <div class="header">Packets</div>
+        <div class="header">
+            <span class="header-text">Packets</span>
+            <div class="sub-header">
+                <li class="rcv-pkt">received packets</li>
+                <li class="sent-pkt">sent packets</li>
+            </div>
+        </div>
+
         <div id="packet"></div>
     </div>
       <div id="pkt-content-panel" class="column">
-          <div class="header">Packet Content</div>
+          <div class="header"><span class="header-text">Packet Content</span></div>
           <div id="pkt-content"></div>
       </div>
   </div>

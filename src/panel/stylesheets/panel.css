@@ -13,24 +13,41 @@ html, body {
 .column {
   width: 33%;
   height: 100%;
-  flex-grow: 1;
-  border: 1px groove #333333; }
+  flex-grow: 1; }
+  .column:not(:first-child) {
+    border-left: 1px groove; }
   .column .header {
     font-size: 1.25rem;
-    background-color: cornsilk;
+    background-color: #DEDEDE;
     border-bottom: 1px solid black;
-    text-align: center;
     padding: 0.5rem 0;
-    height: 8%; }
+    height: 5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+    .column .header .sub-header {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      font-size: 0.8rem; }
+      .column .header .sub-header .rcv-pkt {
+        text-align: center;
+        width: 50%;
+        color: red; }
+      .column .header .sub-header .sent-pkt {
+        text-align: center;
+        width: 50%;
+        color: blue; }
 
 #manager {
-  padding: 0.8rem;
   font-size: 1.2rem;
   overflow-wrap: break-word;
-  height: 92%; }
+  height: 95%; }
+  #manager .manager-item {
+    padding: 0.8rem; }
   #manager .sockets {
-    margin-left: 1.25em;
-    padding: 0.25em;
+    padding: 0.5em;
     font-size: 0.9rem;
     list-style-type: decimal;
     cursor: pointer; }
@@ -40,12 +57,12 @@ html, body {
       background-color: #c320e2; }
 
 #packet {
-  margin-left: 1rem;
   margin-top: 1rem;
   overflow-y: scroll;
   overflow-x: hidden;
-  height: 92%; }
+  height: 95%; }
   #packet .packets {
+    padding-left: 1rem;
     padding-bottom: 0.25em;
     font-size: 1rem;
     cursor: pointer; }
@@ -61,7 +78,7 @@ html, body {
         color: #990000; }
 
 #pkt-content {
-  height: 92%;
+  height: 95%;
   overflow-y: auto;
   overflow-x: hidden;
   margin: 0.5rem;

@@ -15,31 +15,53 @@ html, body {
   display: flex;
   flex-direction: row;
 }
-$header-ht: 8%;
+$header-ht: 5%;
 
 .column {
   width: 33%;
   height: 100%;
   flex-grow:1;
-  border: 1px groove #333333;
+  &:not(:first-child){
+    border-left: 1px groove;
+  }
   .header{
     font-size: 1.25rem;
-    background-color: cornsilk;
+    background-color: #DEDEDE;
     border-bottom: 1px solid black;
-    text-align: center;
     padding: 0.5rem 0;
     height: $header-ht;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .sub-header{
+      display: flex;
+      justify-content: center;
+      width:100%;
+      font-size:0.8rem;
+      .rcv-pkt{
+        text-align: center;
+        width: 50%;
+        color: red;
+      }
+      .sent-pkt{
+        text-align: center;
+        width: 50%;
+        color: blue;
+      }
+    }
   }
 }
 
 #manager {
-  padding: $padding;
   font-size: 1.2rem;
   overflow-wrap: break-word;
   height: 100% - $header-ht;
+  .manager-item{
+    padding: $padding;
+  }
   .sockets {
-    margin-left: 1.25em;
-    padding: 0.25em;
+    padding: 0.5em;
     font-size: 0.9rem;
     list-style-type: decimal;
     cursor: pointer;
@@ -53,12 +75,12 @@ $header-ht: 8%;
 }
 
 #packet {
-  margin-left: $marginLeft;
   margin-top: $marginTop;
   overflow-y: scroll;
   overflow-x: hidden;
   height: 100% - $header-ht;
   .packets {
+    padding-left: $marginLeft;
     padding-bottom: 0.25em;
     font-size: 1rem;
     cursor: pointer;
