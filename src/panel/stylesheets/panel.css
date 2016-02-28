@@ -18,7 +18,7 @@ html, body {
   flex-grow: 1; }
   .column:not(:first-child) {
     border-left: 1px groove; }
-  .column .header {
+  .column .header, .column .error-header {
     font-size: 1.25rem;
     background-color: #DEDEDE;
     border-bottom: 1px solid #666666;
@@ -27,17 +27,17 @@ html, body {
     flex-direction: column;
     justify-content: center;
     align-items: center; }
-    .column .header .sub-header {
+    .column .header .sub-header, .column .error-header .sub-header {
       display: flex;
       justify-content: center;
       width: 100%;
       text-overflow: ellipsis;
       font-size: 0.8rem; }
-      .column .header .sub-header .rcv-pkt {
+      .column .header .sub-header .rcv-pkt, .column .error-header .sub-header .rcv-pkt {
         text-align: center;
         width: 50%;
         color: red; }
-      .column .header .sub-header .sent-pkt {
+      .column .header .sub-header .sent-pkt, .column .error-header .sub-header .sent-pkt {
         text-align: center;
         width: 50%;
         color: blue; }
@@ -46,10 +46,18 @@ html, body {
     width: 100%;
     overflow-y: scroll;
     overflow-x: hidden;
-    padding: 1rem 0; }
+    padding: 1rem 0;
+    box-sizing: border-box; }
+    .column .panel-body.first {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between; }
 
 #manager {
-  font-size: 1.2rem; }
+  font-size: 1.2rem;
+  max-height: 50%;
+  overflow-y: auto;
+  overflow-x: hidden; }
   #manager .manager-name {
     white-space: nowrap;
     box-sizing: border-box;
@@ -89,5 +97,14 @@ html, body {
 #pkt-content {
   margin: 0.5rem;
   font-size: 1rem; }
+
+.error-panel {
+  height: 50%; }
+  .error-panel .error-header {
+    height: 10%;
+    border-top: 1px solid #666666;
+    border-bottom: 1px solid #666666; }
+  .error-panel .error-body {
+    height: 90%; }
 
 /*# sourceMappingURL=panel.css.map */
