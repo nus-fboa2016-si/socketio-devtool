@@ -19,7 +19,11 @@ if (window.messenger) {
     }
     displayManagers();
   });
-
+  messenger.on('io', function(io){
+    if(io == 'no-io'){
+      $('#manager').html('No global `io` found. Is Socket.io running on page?');
+    }
+  });
   messenger.on('socket', function(data) {
     addSocketToManager(data.manager, data.message);
     displayManagers();
