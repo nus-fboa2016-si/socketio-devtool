@@ -5,11 +5,13 @@
 </head>
 <body>
   <div class="container">
-    <div id="manager-panel" class="column">
+    <div id="first-panel" class="column">
         <div class="header"><span class="header-text">Managers</span></div>
-        <div id="manager"></div>
+        <div class="panel-body">
+            <div id="manager"></div>
+        </div>
     </div>
-    <div id="packet-panel" class="column">
+    <div id="second-panel" class="column">
         <div class="header">
             <span class="header-text">Packets</span>
             <div class="sub-header">
@@ -17,12 +19,15 @@
                 <li class="sent-pkt">sent packets</li>
             </div>
         </div>
-
-        <div id="packet"></div>
+        <div class="panel-body">
+            <div id="packet"></div>
+        </div>
     </div>
-      <div id="pkt-content-panel" class="column">
+      <div id="third-panel" class="column">
           <div class="header"><span class="header-text">Packet Content</span></div>
-          <div id="pkt-content"></div>
+          <div class="panel-body">
+            <div id="pkt-content"></div>
+          </div>
       </div>
   </div>
   <script src="../dist/src/panel/scripts/init.js"></script>

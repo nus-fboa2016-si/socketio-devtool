@@ -1,5 +1,4 @@
 $marginLeft: 1rem;
-$marginTop: 1rem;
 $padding: 0.8rem;
 $clr-purple: rgb(219, 122, 238);
 
@@ -8,14 +7,16 @@ html, body {
   width: 100%;
   margin: 0 auto;
   font-family: monospace;
+  overflow: hidden;
 }
 .container {
   height: 100%;
   width: 100%;
+  min-width: 700px;
   display: flex;
   flex-direction: row;
 }
-$header-ht: 5%;
+$header-ht: 8%;
 
 .column {
   width: 33%;
@@ -27,8 +28,7 @@ $header-ht: 5%;
   .header{
     font-size: 1.25rem;
     background-color: #DEDEDE;
-    border-bottom: 1px solid black;
-    padding: 0.5rem 0;
+    border-bottom: 1px solid #666666;
     height: $header-ht;
     display:flex;
     flex-direction: column;
@@ -38,9 +38,11 @@ $header-ht: 5%;
       display: flex;
       justify-content: center;
       width:100%;
+      text-overflow: ellipsis;
       font-size:0.8rem;
       .rcv-pkt{
         text-align: center;
+
         width: 50%;
         color: red;
       }
@@ -51,20 +53,33 @@ $header-ht: 5%;
       }
     }
   }
+  .panel-body{
+    height: 100% - $header-ht;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1rem 0;
+  }
 }
 
 #manager {
   font-size: 1.2rem;
-  overflow-wrap: break-word;
-  height: 100% - $header-ht;
-  .manager-item{
+  .manager-name{
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: $padding;
   }
+  ul{
+    margin: 0.2rem 0 0.2rem 0.5rem;
+  }
   .sockets {
-    padding: 0.5em;
+    padding: 0.3em;
     font-size: 0.9rem;
     list-style-type: decimal;
     cursor: pointer;
+    overflow-wrap: break-word;
     &:hover{
       background-color: $clr-purple;
     }
@@ -75,15 +90,12 @@ $header-ht: 5%;
 }
 
 #packet {
-  margin-top: $marginTop;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 100% - $header-ht;
   .packets {
     padding-left: $marginLeft;
     padding-bottom: 0.25em;
     font-size: 1rem;
     cursor: pointer;
+    overflow-wrap: break-word;
 
     &.packet-created {
       color: blue;
@@ -104,9 +116,6 @@ $header-ht: 5%;
 }
 
 #pkt-content{
-  height: 100% - $header-ht;
-  overflow-y: auto;
-  overflow-x: hidden;
   margin: 0.5rem;
   font-size: 1rem;
 }

@@ -157,18 +157,20 @@ function isActive(managerName, socketName) {
 function displayManagers() {
   $("#manager").html('');
   for (var managerName in managers) {
-
-    $("#manager").append('<div class="managerItem" >' + managerName + '</div>');
+    //$("#manager").append('<div class="managerItem" >' + managerName + '</div>');
+    $('#manager').append($('<div></div>').addClass('managerItem').attr('id', managerName));
+    $(document.getElementById(managerName)).append($('<span></span>').addClass('manager-name').append(managerName));
     var sockets = getSockets(managers[managerName]);
-    $("#manager").append('<ul class="socketList"></ul>');
+    $(document.getElementById(managerName)).append('<ul class="socketList"></ul>');
     for (socket in sockets) {
       console.log('appending socket');
-      $("#manager").children('ul.socketList').append('<li class="sockets" id="' + managerName + '">' + sockets[socket] + '</li>');
+
+      $(document.getElementById(managerName)).children('ul.socketList').append('<li class="sockets" managerid="' + managerName + '">' + sockets[socket] + '</li>');
     }
   }
 
   $(".sockets").on("click", function() {
-    var managerName = $(this).attr('id');
+    var managerName = $(this).attr('managerid');
     var socketName = $(this).text();
     $(this).addClass('selected');
     if(selectedSocketDOM) $(selectedSocketDOM).removeClass('selected');
@@ -201,7 +203,6 @@ function displayPacketList(packets) {
     $("#packet").append('</div>');
     displayedPackets[packet._id] = packet;
   }
-
   $(".packets").on("click", function() {
     $(this).addClass('selected');
     if(selectedPacketDOM) $(selectedPacketDOM).removeClass('selected');

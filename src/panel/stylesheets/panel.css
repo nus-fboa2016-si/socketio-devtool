@@ -2,11 +2,13 @@ html, body {
   height: 100%;
   width: 100%;
   margin: 0 auto;
-  font-family: monospace; }
+  font-family: monospace;
+  overflow: hidden; }
 
 .container {
   height: 100%;
   width: 100%;
+  min-width: 700px;
   display: flex;
   flex-direction: row; }
 
@@ -19,9 +21,8 @@ html, body {
   .column .header {
     font-size: 1.25rem;
     background-color: #DEDEDE;
-    border-bottom: 1px solid black;
-    padding: 0.5rem 0;
-    height: 5%;
+    border-bottom: 1px solid #666666;
+    height: 8%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -30,6 +31,7 @@ html, body {
       display: flex;
       justify-content: center;
       width: 100%;
+      text-overflow: ellipsis;
       font-size: 0.8rem; }
       .column .header .sub-header .rcv-pkt {
         text-align: center;
@@ -39,48 +41,52 @@ html, body {
         text-align: center;
         width: 50%;
         color: blue; }
+  .column .panel-body {
+    height: 92%;
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding: 1rem 0; }
 
 #manager {
-  font-size: 1.2rem;
-  overflow-wrap: break-word;
-  height: 95%; }
-  #manager .manager-item {
+  font-size: 1.2rem; }
+  #manager .manager-name {
+    white-space: nowrap;
+    box-sizing: border-box;
+    overflow: hidden;
+    text-overflow: ellipsis;
     padding: 0.8rem; }
+  #manager ul {
+    margin: 0.2rem 0 0.2rem 0.5rem; }
   #manager .sockets {
-    padding: 0.5em;
+    padding: 0.3em;
     font-size: 0.9rem;
     list-style-type: decimal;
-    cursor: pointer; }
+    cursor: pointer;
+    overflow-wrap: break-word; }
     #manager .sockets:hover {
       background-color: #db7aee; }
     #manager .sockets.selected {
       background-color: #c320e2; }
 
-#packet {
-  margin-top: 1rem;
-  overflow-y: scroll;
-  overflow-x: hidden;
-  height: 95%; }
-  #packet .packets {
-    padding-left: 1rem;
-    padding-bottom: 0.25em;
-    font-size: 1rem;
-    cursor: pointer; }
-    #packet .packets.packet-created {
-      color: blue; }
-      #packet .packets.packet-created.selected {
-        background-color: #6699cc;
-        color: #000099; }
-    #packet .packets.packet-received {
-      color: red; }
-      #packet .packets.packet-received.selected {
-        background-color: lightcoral;
-        color: #990000; }
+#packet .packets {
+  padding-left: 1rem;
+  padding-bottom: 0.25em;
+  font-size: 1rem;
+  cursor: pointer;
+  overflow-wrap: break-word; }
+  #packet .packets.packet-created {
+    color: blue; }
+    #packet .packets.packet-created.selected {
+      background-color: #6699cc;
+      color: #000099; }
+  #packet .packets.packet-received {
+    color: red; }
+    #packet .packets.packet-received.selected {
+      background-color: lightcoral;
+      color: #990000; }
 
 #pkt-content {
-  height: 95%;
-  overflow-y: auto;
-  overflow-x: hidden;
   margin: 0.5rem;
   font-size: 1rem; }
 
