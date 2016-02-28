@@ -8,7 +8,6 @@ var Emitter = require('component-emitter');
 var messenger = {};
 Emitter(messenger);
 
-
 //tells background.js which tab is connected to this devtool page,
 //so it can route the messages correctly
 backgroundPageConnection.postMessage({
@@ -16,13 +15,16 @@ backgroundPageConnection.postMessage({
   tabId: chrome.devtools.inspectedWindow.tabId
 });
 
+var injectDetectionScript = function() {
 //get the script to inject to inspected page and inject it via eval().
-var xhr = new XMLHttpRequest();
-xhr.open('GET', chrome.extension.getURL('../../injected_scripts/detectIO.js'), false);
-xhr.send();
-var script = xhr.responseText;
-chrome.devtools.inspectedWindow.eval(script);
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', chrome.extension.getURL('../../injected_scripts/detectIO.js'), false);
+  xhr.send();
+  var script = xhr.responseText;
+  chrome.devtools.inspectedWindow.eval(script);
+};
 
+injectDetectionScript();
 
 //listen to whether socket.io is running on inspected page.
 backgroundPageConnection.onMessage.addListener(function(message) {
@@ -44,6 +46,9 @@ backgroundPageConnection.onMessage.addListener(function(message) {
       case 'packetRcv':
         handlePacketRcv({manager: message.manager, message: message.message});
         break;
+      case 'pageRefresh':
+        handlePageRefresh();
+        break;
       default:
         break;
     }
@@ -51,6 +56,11 @@ backgroundPageConnection.onMessage.addListener(function(message) {
     console.error(err);
   }
 });
+
+var handlePageRefresh = function(){
+  injectDetectionScript();
+  messenger.emit('init');
+};
 
 var handleConnect =  function(data) {
   if(data == 'no-io'){
@@ -66,6 +76,7 @@ var handleConnect =  function(data) {
     chrome.devtools.inspectedWindow.eval(script);
   }
 };
+
 
 var handleManager = function(data){
   messenger.emit('manager', data);

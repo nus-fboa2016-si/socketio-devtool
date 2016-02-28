@@ -47,3 +47,11 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
   }
   return true;
 });
+
+chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab){
+  if(changeInfo.status === 'complete' && connections[tabId]){
+    connections[tabId].postMessage({
+      'type': 'pageRefresh'
+    });
+  }
+});

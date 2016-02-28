@@ -10,7 +10,7 @@ var selectedSocket = null;
 var selectedSocketDOM = null;
 var selectedPacketDOM = null;
 var displayedPackets = {};
-var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 if (window.messenger) {
   messenger.on('manager', function(data) {
@@ -89,6 +89,8 @@ if (window.messenger) {
     });
   });
 }
+
+messenger.on('init', reinit);
 
 function addSocketToManager(managerName, socket) {
   if (managers[managerName]) {
@@ -240,4 +242,17 @@ function convertTimestampToDateString(timestamp) {
   }
 
   return month + " " + dayInMonth + " " + hour + ":" + minute + ":" + second;
+}
+
+function reinit(){
+  managers = {};
+  packetId = 0;
+  selectedManager = null;
+  selectedSocket = null;
+  selectedSocketDOM = null;
+  selectedPacketDOM = null;
+  displayedPackets = {};
+  $('#manager').html('');
+  $('#packet').html('');
+  $('#pkt-content').html('');
 }
