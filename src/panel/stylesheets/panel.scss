@@ -138,5 +138,13 @@ $error-head-ht: 10%;
   }
   .error-body{
     height: 100% - $error-head-ht;
+    padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-wrap: break-word;
+  }
+  .error-msg{
+    margin: 0.5rem 0;
+    color: red;
   }
 }

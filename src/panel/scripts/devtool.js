@@ -38,6 +38,11 @@ if (window.messenger) {
       if (data.type === 0 ){
         return;
       }
+      //handle Error
+      if(data.type === 4){
+        handleError(data);
+        return;
+      }
       if (data.type !== 'ping') {
         // console.log('adding created packet ' + data + ' to socket / ' + ' in manager ' + manager);
 
@@ -66,8 +71,9 @@ if (window.messenger) {
     parser.decode(data, function(manager, data) {
        //console.log('After parsing');
        //console.log(data);
-      //error packet. for MVP we ignore it.
+      //error packet.
       if(data.type === 4){
+        handleError(data);
         return;
       }
       //connection packet. handle it.
@@ -249,6 +255,11 @@ function convertTimestampToDateString(timestamp) {
   return month + " " + dayInMonth + " " + hour + ":" + minute + ":" + second;
 }
 
+function handleError(error){
+  console.error(error);
+  $('#error').append($('<div></div>').append(error.data).addClass('error-msg'));
+}
+
 function reinit(){
   managers = {};
   packetId = 0;
@@ -260,4 +271,5 @@ function reinit(){
   $('#manager').html('');
   $('#packet').html('');
   $('#pkt-content').html('');
+  $('#error').html('');
 }

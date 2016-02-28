@@ -105,6 +105,13 @@ html, body {
     border-top: 1px solid #666666;
     border-bottom: 1px solid #666666; }
   .error-panel .error-body {
-    height: 90%; }
+    height: 90%;
+    padding: 1rem;
+    overflow-y: auto;
+    overflow-x: hidden;
+    overflow-wrap: break-word; }
+  .error-panel .error-msg {
+    margin: 0.5rem 0;
+    color: red; }
 
 /*# sourceMappingURL=panel.css.map */
