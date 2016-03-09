@@ -8,8 +8,13 @@
  */
 import { combineReducers } from 'redux';
 import sockets from './sockets';
+import packets from './packets';
+import packetContent from './packetContent';
+
 /* Populated by react-webpack-redux:reducer */
 const reducers = {
-  sockets
+  sockets,
+  packets,
+  packetContent
 };
 module.exports = combineReducers(reducers);
