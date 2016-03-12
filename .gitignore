@@ -29,7 +29,5 @@ node_modules
 # Bower
 bower_components/
 
-
-#project specific
-
+# Project-Specific
 src/chrome/dist
