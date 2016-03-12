@@ -22,6 +22,7 @@
     "react-transform-hmr": "^1.0.4",
     "redux": "^3.3.1",
     "sass-loader": "^3.2.0",
+    "socket.io-parser": "^2.2.6",
     "style-loader": "^0.13.0",
     "webpack": "^1.12.14",
     "webpack-dev-middleware": "^1.5.1",
