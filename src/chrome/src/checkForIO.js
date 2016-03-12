@@ -19,15 +19,15 @@ function attachHooks(){
       engineIds[eid] = managers[manager];
       console.log(managers[manager]);
       managers[manager].engine.on('packetCreate', function(msg){
-        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'packetCreate', url: manager, message: msg}}, '*');
+        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'packetCreate', url: manager, data: msg.data, timestamp: Date.now() }}, '*');
       });
       managers[manager].engine.on('data', function(msg){
-        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'packetRcv', manager: manager, message: msg, timestamp: Date.now() }}, '*');
+        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'packetRcv', url: manager, data: msg, timestamp: Date.now() }}, '*');
       });
       var sockets = io.managers[manager].nsps;
       for(var skt in sockets) {
         if (sockets.hasOwnProperty(skt)) {
-          window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'socket', url: manager, message: skt}}, '*');
+          window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'socket', url: manager, socket: skt}}, '*');
         }
       }
     }
