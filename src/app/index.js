@@ -5,11 +5,11 @@ import { createStore } from 'redux'
 import reducers from './reducers'
 import App from './components/App'
 
-let store = createStore(reducers)
+let store = createStore(reducers);
 
 render(
   <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('socketio-devtool')
-)
+);
