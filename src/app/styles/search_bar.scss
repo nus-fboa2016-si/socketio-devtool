@@ -1,0 +1,24 @@
+.search-bar-container {
+	height: 32px;
+	margin-bottom: 1px;
+	background-color: yellow;
+}
+
+.search-bar {
+	width: 100%;
+	box-sizing: border-box;
+	padding: 9px 9px 9px 32px;
+	-moz-box-sizing: border-box;
+	background-image: url('../images/ic_search.png');
+	background-size: 16px 16px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	box-shadow: none;
+	transition: box-shadow 0.3s, border 0.3s;
+}
+
+.search-bar:focus, .search-bar.focus {
+	border: solid 1px #707070;
+  box-shadow: 0 0 10px 1px #969696;
+  outline: none;
+}
