@@ -30,8 +30,15 @@ module.exports = {
 			},
 			{
 				test: /\.scss$/,
-				loaders: ['style', 'css', 'sass']
-			}
+				loaders: [
+					'style?sourceMap', 
+					'css?modules&importLoaders=1&localIdentName=[path]__[name]__[local]__hash:base64:5]', 
+					'resolve-url', 
+					'sass?sourceMap'
+				]
+			},
+			{ test: /\.png$/, loader: 'url-loader?limit=100000' },
+			{ test: /\.jpg$/, loader: 'file-loader'}
 		]
 	}
 }
