@@ -3,10 +3,10 @@ const initialState = {
   packets: [],
   socketFilter: {},
   packetFilter: {},
-  ioIsDetected: false
+  isIoDetected: false
 };
 
-function update(state=initialState, action){
+function updates(state=initialState, action){
   switch(action.type){
     case 'ADD_PACKET':
       return Object.assign({}, state, {packet: [...state.packets, action.packet]});
@@ -21,4 +21,4 @@ function update(state=initialState, action){
   }
 }
 
-export default update;
+export default updates;

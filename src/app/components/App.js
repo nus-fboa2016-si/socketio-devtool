@@ -6,6 +6,7 @@ import SearchablePacketListBox from './SearchablePacketListBox';
 import PacketContentBox from './PacketContentBox';
 import Header from './Header';
 import styles from '../styles/packets_panel.scss';
+import messenger from '../../chrome/src/connect';
 
 class App extends React.Component {
 	constructor(props) {
@@ -18,7 +19,7 @@ class App extends React.Component {
 
 	componentDidMount(){
 		const {addSocket, addPacket} = this.props;
-		let messenger = window['__SOCKETIO-DEVTOOL-MESSENGER__'];
+
 		messenger.on('socket', function(socket){
 			addSocket(socket);
 		});
@@ -33,10 +34,11 @@ class App extends React.Component {
 	};
 
 	render() {
+		console.log(this.props, this.state);
 		return (
 			<div styleName='main-content'>
 				<Header/>
-				<div styleName="body">
+				<div className="body">
 					<SearchablePacketListBox />
 					< PacketContentBox />
 				</div>
@@ -51,7 +53,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = function(state){
-	return {};
+	return state;
 };
 
 export default connect(mapStateToProps, {addSocket, addPacket})(CSSModules(App,styles));

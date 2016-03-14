@@ -6,7 +6,6 @@ var Parser = require('./parser');
 
 var messenger = {};
 Emitter(messenger);
-window['__SOCKETIO-DEVTOOL-MESSENGER__'] = messenger;
 //connect to background.js with name 'devtool-page'
 var backgroundPageConnection = chrome.runtime.connect({
   name: "devtool-page"
@@ -114,3 +113,5 @@ var handlePacketRcv = function(packet){
 
 inject(chrome.runtime.getURL('dist/checkForIO.js'));
 
+
+export default messenger;

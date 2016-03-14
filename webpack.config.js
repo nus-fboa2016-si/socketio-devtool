@@ -5,7 +5,7 @@ module.exports = {
 	devtool: 'inline-source-map',
 	entry: {
 		app: './src/app/index.js',
-		connect: './src/chrome/src/connect.js',
+		//connect: './src/chrome/src/connect.js',
 		checkForIO: './src/chrome/src/checkForIO.js'
 	},
 	output: {

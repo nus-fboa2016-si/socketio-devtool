@@ -5,18 +5,20 @@ import styles from '../styles/header.scss';
 
 class Header extends React.Component {
   render(){
+    console.log("SOCKETS", this.props);
     return (
       <div styleName="header">
-
+        
       </div>
     );
   }
 }
 
 const mapStateToProps = function(state){
+
   return ({
-    sockets: state.sockets,
-    isIoDetected: state.isIoDetected
+    sockets: state.updates.sockets,
+    isIoDetected: state.updates.isIoDetected
   });
 };
 
