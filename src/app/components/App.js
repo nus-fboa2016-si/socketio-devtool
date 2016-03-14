@@ -46,7 +46,7 @@ class App extends React.Component {
 				<Header/>
 				<div className="body">
 					<SearchablePacketListBox />
-					< PacketContentBox />
+					<PacketContentBox />
 				</div>
 			</div>
 		);
