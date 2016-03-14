@@ -2,7 +2,8 @@ const initialState = {
   sockets: {},
   packets: [],
   socketFilter: {},
-  packetFilter: {}
+  packetFilter: {},
+  ioIsDetected: false
 };
 
 function update(state=initialState, action){
@@ -13,7 +14,7 @@ function update(state=initialState, action){
     case 'ADD_SOCKET':
       let sockets = state.sockets;
       sockets[action.socket.nsp] = action.socket;
-      return Object.assign({}, state, sockets);
+      return Object.assign({}, state, {sockets: sockets});
 
 
     default: return state;
