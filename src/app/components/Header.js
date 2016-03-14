@@ -1,16 +1,26 @@
 import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
+import Sockets from './Sockets';
 import CSSModules from 'react-css-modules';
 import styles from '../styles/header.scss';
 
 class Header extends React.Component {
   render(){
-    console.log("SOCKETS", this.props);
-    return (
-      <div styleName="header">
-        
-      </div>
-    );
+    const {isIoDetected, sockets} = this.props;
+    console.log("SOCKETS", sockets);
+    if(!isIoDetected){
+      return (
+        <div styleName="header">
+          <div styleName="header-msg">No global `io` detected. </div>
+        </div>
+      );
+    }else {
+      return (
+        <div styleName="header">
+          <Sockets sockets={sockets}/>
+        </div>
+      );
+    }
   }
 }
 

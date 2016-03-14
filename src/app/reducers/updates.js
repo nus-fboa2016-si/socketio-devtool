@@ -12,10 +12,12 @@ function updates(state=initialState, action){
       return Object.assign({}, state, {packet: [...state.packets, action.packet]});
 
     case 'ADD_SOCKET':
-      let sockets = state.sockets;
+      let sockets = Object.assign({}, state.sockets);
       sockets[action.socket.nsp] = action.socket;
       return Object.assign({}, state, {sockets: sockets});
 
+    case 'SET_IO_DETECTED':
+      return Object.assign({}, state, {isIoDetected: true});
 
     default: return state;
   }

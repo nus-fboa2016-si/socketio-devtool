@@ -1,10 +1,10 @@
 function run(){
   if(window.io) {
     //global io detected.
-    window.postMessage({type: 'socketiodev', data: {type: 'connect', message: 'io-global'}}, '*');
+    window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'connect', message: 'io-global'}}, '*');
     attachHooks();
   }else{
-    window.postMessage({type: 'socketiodev', data:{type: 'connect', message:'no-io'}}, '*');
+    window.postMessage({type: '__SOCKETIO_DEVTOOL__', data:{type: 'connect', message:'no-io'}}, '*');
     window.setTimeout(run, 2000);
   }
 }

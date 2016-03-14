@@ -11,3 +11,9 @@ export function addPacket(packet){
     packet: packet
   }
 }
+
+export function setIoDetected(){
+  return {
+    type: 'SET_IO_DETECTED'
+  }
+}

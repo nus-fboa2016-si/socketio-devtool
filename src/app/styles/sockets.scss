@@ -1,0 +1,27 @@
+$clr-blue: #3275DB;
+$clr-lightgrey: #D7D7D7;
+$clr-darkgrey: #777777;
+.sockets{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+
+}
+.socket{
+  padding: 0.15rem 1rem;
+  color: $clr-darkgrey;
+  background-color: $clr-lightgrey;
+  cursor: pointer;
+  border-radius: 2rem;
+  margin: 0.5rem;
+  &:hover{
+    background-color: lighten($clr-blue, 20%);
+    color: darken($clr-blue, 20%);
+  }
+  &.selected{
+    color: white;
+    background-color: $clr-blue;
+    border-color: darken($clr-blue, 30%);
+  }
+}
