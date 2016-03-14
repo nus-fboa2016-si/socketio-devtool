@@ -31,3 +31,7 @@ bower_components/
 
 # Project-Specific
 src/chrome/dist
+
+# auto-generated css files
+*.css
+*.css.map
