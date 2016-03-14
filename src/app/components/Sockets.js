@@ -42,7 +42,6 @@ Sockets.propTypes = {
 };
 
 const mapStateToProps = function(state){
-  console.log("States", state);
   return {
     selectedSocket: state.select.socketFilter
   }

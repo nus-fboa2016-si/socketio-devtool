@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {addPacket, addSocket, setIoDetected} from '../actions/updateActions';
+import {addPacket, addSocket, setIoDetected, reinitialise} from '../actions/updateActions';
 import CSSModules from 'react-css-modules';
 import SearchablePacketListBox from './SearchablePacketListBox';
 import PacketContentBox from './PacketContentBox';
@@ -18,9 +18,8 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		const {addSocket, addPacket, setIoDetected} = this.props;
+		const {addSocket, addPacket, setIoDetected, reinitialise} = this.props;
 		messenger.on('io', function(ioDetect){
-			console.log('io event', ioDetect);
 			if(ioDetect === 'global-io'){
 				setIoDetected();
 			}
@@ -36,11 +35,13 @@ class App extends React.Component {
 			packet.from = 'created';
 			addPacket(packet);
 		});
+		messenger.on('reinit', function(){
+			reinitialise();
+		});
 		messenger.run();
 	};
 
 	render() {
-		console.log(this.props, this.state);
 		return (
 			<div styleName='main-content'>
 				<Header/>
@@ -62,4 +63,4 @@ const mapStateToProps = function(state){
 	return state;
 };
 
-export default connect(mapStateToProps, {addSocket, addPacket, setIoDetected})(CSSModules(App,styles));
+export default connect(mapStateToProps, {addSocket, addPacket, setIoDetected, reinitialise})(CSSModules(App,styles));

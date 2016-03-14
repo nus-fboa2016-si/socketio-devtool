@@ -17,3 +17,9 @@ export function setIoDetected(){
     type: 'SET_IO_DETECTED'
   }
 }
+
+export function reinitialise(){
+  return {
+    type: 'REINITIALISE'
+  }
+}

@@ -7,7 +7,6 @@ import SocketInfo from './SocketInfo';
 class Header extends React.Component {
   render(){
     const {isIoDetected, sockets, selectedSocket} = this.props;
-    console.log("SOCKETS", selectedSocket);
     return (
       <div styleName="header">
         <Sockets sockets={sockets}/>

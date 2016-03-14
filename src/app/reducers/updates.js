@@ -27,6 +27,8 @@ function updates(state=initialState, action){
     case 'SET_IO_DETECTED':
       return Object.assign({}, state, {isIoDetected: true});
 
+    case 'REINITIALISE':
+      return initialState;
     default: return state;
   }
 }

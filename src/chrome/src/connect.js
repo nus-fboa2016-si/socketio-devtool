@@ -12,7 +12,6 @@ var Emitter = require('component-emitter');
 var messenger = {};
 Emitter(messenger);
 messenger.run = function() {
-  console.log('run');
   var backgroundPageConnection = chrome.runtime.connect({
     name: "devtool-page"
   });
@@ -22,7 +21,6 @@ messenger.run = function() {
   });
 
   backgroundPageConnection.onMessage.addListener(function (message) {
-    console.log('message', message);
     switch (message.type) {
       case 'connect':
         handleConnect(message.message);
@@ -64,7 +62,6 @@ messenger.run = function() {
   };
 
   var handlePacketCreate = function (packet) {
-    console.log('packetcreate:', packet);
     try {
       if (!packet.data) {
         //ping packet, ignore
@@ -87,7 +84,6 @@ messenger.run = function() {
 
   };
   var handlePacketRcv = function (packet) {
-    console.log('packetrcv:', packet);
     try {
       if (!packet.data) {
         //ping packet, ignore
@@ -110,6 +106,10 @@ messenger.run = function() {
     }
   };
 
+  var handlePageRefresh = function(){
+    inject(chrome.runtime.getURL('dist/checkForIO.js'));
+    messenger.emit('reinit');
+  };
 
   inject(chrome.runtime.getURL('dist/checkForIO.js'));
 };
