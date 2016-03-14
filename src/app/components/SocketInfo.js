@@ -2,7 +2,7 @@ import React, {PropTypes} from 'react';
 import CSS from 'react-css-modules';
 import styles from '../styles/socketinfo.scss';
 //import {connect} from 'react-redux';
-
+import {numberWithCommas} from '../../utils';
 
 class SocketInfo extends React.Component{
   render(){
@@ -44,13 +44,13 @@ class SocketInfo extends React.Component{
             <div styleName="column">
               <div styleName="block-info">
                 <span styleName="block-title">EVENTS RECEIVED:</span>
-                <span styleName="block-attrib"></span>
+                <span styleName="block-attrib">{numberWithCommas(selectedSocket.receivedCount)}</span>
               </div>
             </div>
             <div styleName="column">
               <div styleName="block-info">
                 <span styleName="block-title">EVENTS SENT:</span>
-                <span styleName="block-attrib"></span>
+                <span styleName="block-attrib">{numberWithCommas(selectedSocket.sentCount)}</span>
               </div>
             </div>
             <div styleName="column">
