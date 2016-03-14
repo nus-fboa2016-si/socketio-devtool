@@ -1,0 +1,20 @@
+@import 'colors';
+
+.packet-data-panel {
+	clear: both;
+}
+
+.packet-data-header {
+	color: $font-grey;
+	padding: 5px 10px;
+}
+
+.packet-data {
+	font-size: 1.5em;
+	margin-left: 20px;
+	white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

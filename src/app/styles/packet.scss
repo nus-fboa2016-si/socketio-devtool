@@ -1,8 +1,10 @@
+@import 'colors';
+
 .packet {
 	padding: 10px;
-	border-bottom: 1px solid #CDCDCD;
+	border-bottom: 1px solid $border-light-grey;
 }
 
 .packet:first-child {
-	border-top: 1px solid black;
+	border-top: 1px solid $border-light-grey;
 }

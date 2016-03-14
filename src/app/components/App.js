@@ -1,3 +1,5 @@
+require('../styles/app.scss')
+
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
 import {addPacket, addSocket, setIoDetected, reinitialise} from '../actions/updateActions';
@@ -11,10 +13,7 @@ import messenger from '../../chrome/src/connect';
 class App extends React.Component {
 	constructor(props) {
 		super(props);
-		document.body.style.width = '100%';
-		document.body.style.height = '100%';
-		document.body.style.margin = '0px';
-		document.body.style.padding = '0';
+		document.getElementById('socketio-devtool').style.height = '100%';
 	}
 
 	componentDidMount(){
@@ -43,9 +42,9 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div styleName='main-content'>
+			<div styleName='packets-panel'>
 				<Header/>
-				<div className="body">
+				<div styleName='main-content'>
 					<SearchablePacketListBox />
 					<PacketContentBox />
 				</div>

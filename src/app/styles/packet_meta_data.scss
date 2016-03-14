@@ -1,0 +1,31 @@
+@import 'colors';
+
+.packet-meta-data-panel {
+	width: 100%;
+}
+
+.packet-meta {
+	color: $font-grey;
+	width: 50%;
+	display: inline-block;
+	padding: 10px;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+}
+
+.packet-meta-value {
+	color: black;
+	font-weight: bold;
+	margin-left: 5px;
+}
+
+.packet-type {
+	composes: packet-meta;
+	float: left;
+}
+
+.packet-timestamp {
+	composes: packet-meta;
+	float: right;
+	text-align: right;
+}
