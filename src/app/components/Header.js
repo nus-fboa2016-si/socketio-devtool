@@ -6,8 +6,8 @@ import styles from '../styles/header.scss';
 import SocketInfo from './SocketInfo';
 class Header extends React.Component {
   render(){
-    const {isIoDetected, sockets} = this.props;
-    console.log("SOCKETS", sockets);
+    const {isIoDetected, sockets, selectedSocket} = this.props;
+    console.log("SOCKETS", selectedSocket);
     return (
       <div styleName="header">
         <Sockets sockets={sockets}/>
@@ -15,7 +15,7 @@ class Header extends React.Component {
           Object.keys(sockets).length === 0 ?
               <div styleName="header-msg">Detecting Sockets...</div>
               :
-              <SocketInfo />
+              <SocketInfo selectedSocket={selectedSocket}/>
           :
           <div styleName="header-msg">No global `io` detected...</div>}
       </div>
@@ -27,7 +27,8 @@ const mapStateToProps = function(state){
 
   return ({
     sockets: state.updates.sockets,
-    isIoDetected: state.updates.isIoDetected
+    isIoDetected: state.updates.isIoDetected,
+    selectedSocket: state.select.socketFilter
   });
 };
 
