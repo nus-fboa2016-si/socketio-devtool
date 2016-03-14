@@ -1,6 +1,9 @@
+@import '_colors';
 .header{
   width: 100%;
   .header-msg{
     text-align: center;
+    color: $clr-darkgrey;
+    margin: 1rem;
   }
 }

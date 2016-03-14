@@ -1,8 +1,6 @@
 const initialState = {
   sockets: {},
   packets: [],
-  socketFilter: {},
-  packetFilter: {},
   isIoDetected: false
 };
 
