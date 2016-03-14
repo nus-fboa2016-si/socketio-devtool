@@ -4,3 +4,10 @@ export function selectSocket(socket){
     socket: socket
   }
 }
+
+export function selectPacket(packet) {
+	return {
+		type: 'SELECT_PACKET',
+		packet: packet
+	}
+}

@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from '../styles/packet.scss'
+import classnames from 'classnames'
 
 class Packet extends React.Component {
 	render() {
 		return (
 			<div>
-				<li styleName='packet'>Packet Name 1</li>
-				<li styleName='packet'>Packet Name 2</li>
-				<li styleName='packet'>Packet Name 3</li>
+				<li styleName={classnames('packet', {'selected': this.props.selected})}
+				    onClick={this.props.onClick}>
+					{this.props.packet.data[0]}
+				</li>
 			</div>
 		)
 	}
 }
 
-export default CSSModules(Packet, styles)
+Packet.propTypes = {
+	packet: PropTypes.object.isRequired,
+	onClick: PropTypes.func.isRequired,
+	selected: PropTypes.bool.isRequired
+}
+
+export default CSSModules(Packet, styles, {allowMultiple: true})

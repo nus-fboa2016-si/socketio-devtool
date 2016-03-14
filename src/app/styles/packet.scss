@@ -3,6 +3,11 @@
 .packet {
 	padding: 10px;
 	border-bottom: 1px solid $border-light-grey;
+	cursor: pointer;
+	&.selected {
+		color: white;
+		background-color: $clr-blue;
+	}
 }
 
 .packet:first-child {

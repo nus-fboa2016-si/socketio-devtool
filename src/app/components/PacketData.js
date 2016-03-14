@@ -1,21 +1,33 @@
-import React from 'react'
+import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from '../styles/packet_data.scss'
 import Highlight from 'react-highlight'
 
-const data = JSON.stringify({"message": "hey how are you doing?", "user_id": 50}, null, 2)
-
 class PacketData extends React.Component {
+	renderPacketData(packet) {
+		if (Object.keys(packet).length > 0) {
+			let packetData = JSON.stringify(packet.data[1], null, 2)
+
+			return (
+				<Highlight styleName='packet-data'>
+					{packetData}
+				</Highlight>
+			)
+		}
+	}
+
 	render() {
 		return (
 			<div styleName='packet-data-panel'>
 				<div styleName='packet-data-header'>DATA</div>
-				<Highlight styleName='packet-data'>
-					{data}
-				</Highlight>
+				{this.renderPacketData(this.props.selectedPacket)}
 			</div>
 		)
 	}
+}
+
+PacketData.propTypes = {
+	selectedPacket: PropTypes.object.isRequired
 }
 
 export default CSSModules(PacketData, styles)
