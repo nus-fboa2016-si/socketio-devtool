@@ -4,6 +4,7 @@ import {addPacket, addSocket} from '../actions/updateActions';
 import CSSModules from 'react-css-modules';
 import SearchablePacketListBox from './SearchablePacketListBox';
 import PacketContentBox from './PacketContentBox';
+import Header from './Header';
 import styles from '../styles/packets_panel.scss';
 
 class App extends React.Component {
@@ -34,8 +35,11 @@ class App extends React.Component {
 	render() {
 		return (
 			<div styleName='main-content'>
-				<SearchablePacketListBox />
-				<PacketContentBox />
+				<Header/>
+				<div styleName="body">
+					<SearchablePacketListBox />
+					< PacketContentBox />
+				</div>
 			</div>
 		);
 	}
