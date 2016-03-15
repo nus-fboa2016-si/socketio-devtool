@@ -1,7 +1,8 @@
+@import 'colors';
+
 .search-bar-container {
 	height: 32px;
 	margin-bottom: 1px;
-	background-color: yellow;
 }
 
 .search-bar {
@@ -15,6 +16,9 @@
 	background-position: 10px center;
 	box-shadow: none;
 	transition: box-shadow 0.3s, border 0.3s;
+	border-width: 0 0 1px 0;
+	border-style: solid;
+	border-color: $border-light-grey;
 }
 
 .search-bar:focus, .search-bar.focus {
