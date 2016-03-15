@@ -1,14 +1,28 @@
 @import 'colors';
 
-.packet {
-	padding: 10px;
-	border-bottom: 1px solid $border-light-grey;
+.packet-container {
+	display: flex;
+	justify-content: flex-start;
 	cursor: pointer;
+	border-bottom: 1px solid $border-light-grey;
+	
 	&:hover{
 		background-color: lighten($clr-blue, 20%);
 	}
+
 	&.selected {
 		color: white;
 		background-color: $clr-blue;
 	}
+}
+
+.color {
+	height: 32px;
+	flex-basis: 5px;
+}
+
+.packet {
+	flex-basis: 100%;
+	padding-left: 10px;
+	margin: auto;
 }
