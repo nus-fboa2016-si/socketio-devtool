@@ -4,6 +4,9 @@
 	padding: 10px;
 	border-bottom: 1px solid $border-light-grey;
 	cursor: pointer;
+	&:hover{
+		background-color: lighten($clr-blue, 20%);
+	}
 	&.selected {
 		color: white;
 		background-color: $clr-blue;

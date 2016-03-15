@@ -42,7 +42,7 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<div styleName='packets-panel'>
+			<div styleName='App'>
 				<Header/>
 				<div styleName='main-content'>
 					<SearchablePacketListBox />

@@ -1,19 +1,20 @@
 @import 'colors';
 
-.packets-panel {
+.App {
 	width: 100%;
 	height: 100%;
 }
 
 .main-content {
 	width: 100%;
-	height: 100%;
-	display: inline-block;
+	height: 70%;
+	display: flex;
 	border-top: 1px solid $border-grey;
 }
 
 .left-content {
-	display: inline-block;
+	display: flex;
+	flex-direction: column;
 	float: left;
 	width: 50%;
 	height: 100%;
@@ -27,4 +28,5 @@
 	float: left;
 	width: 50%;
 	height: 100%;
+	padding-left: 0.5rem;
 }
