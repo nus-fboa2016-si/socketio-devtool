@@ -18,6 +18,13 @@ export function setIoDetected(){
   }
 }
 
+export function setKeyword(keyword) {
+  return {
+    type: 'SET_KEYWORD',
+    keyword
+  }
+}
+
 export function reinitialise(){
   return {
     type: 'REINITIALISE'
