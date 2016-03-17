@@ -8,7 +8,8 @@ class Socket extends React.Component {
     const {socket, selected, onClick} = this.props;
     return (
       <div styleName={classnames("socket", {'selected': selected})} onClick={onClick}>
-        {socket.url+socket.nsp}
+        {socket.url}
+        <span styleName="socket-namespace">{socket.nsp}</span>
       </div>
     );
   }
