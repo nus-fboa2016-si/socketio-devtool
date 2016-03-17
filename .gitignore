@@ -33,5 +33,5 @@ bower_components/
 src/chrome/dist
 
 # auto-generated css files
-*.css
-*.css.map
+app/*.css
+app/*.css.map
