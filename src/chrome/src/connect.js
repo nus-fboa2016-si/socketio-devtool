@@ -72,7 +72,8 @@ messenger.run = function() {
           url: url,
           type: data.type,
           nsp: data.nsp,
-          data: data.data
+          data: data.data,
+          timestamp: timestamp
         };
         messenger.emit('packetCreate', packet);
 
