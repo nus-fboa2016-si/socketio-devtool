@@ -15,7 +15,7 @@ const mapStateToProps = (state) => {
 	}
 
 	return {
-		packetType: packetType
+		packetType: packetType,
 		elapsedTime: elapsedTime
 	}
 }
