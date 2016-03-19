@@ -1,8 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import CSSModules from 'react-css-modules'
-import PacketMetaData from './PacketMetaData'
-import PacketData from './PacketData'
+import PacketMetaDataContainer from '../containers/PacketMetaDataContainer'
+import PacketDataContainer from '../containers/PacketDataContainer'
 import styles from '../styles/packets_panel.scss'
 
 class PacketContentBox extends React.Component {
@@ -10,8 +10,8 @@ class PacketContentBox extends React.Component {
 		if (this.props.isIoDetected) {
 			return (
 				<div styleName='right-content'>
-					<PacketMetaData selectedPacket={this.props.selectedPacket}/>
-					<PacketData selectedPacket={this.props.selectedPacket}/>
+					<PacketMetaDataContainer />
+					<PacketDataContainer />
 				</div>
 			)
 		}
@@ -24,7 +24,6 @@ class PacketContentBox extends React.Component {
 
 const mapStateToProps = function(state) {
 	return {
-		selectedPacket: state.select.packetFilter,
 		isIoDetected: state.updates.isIoDetected
 	}
 }
