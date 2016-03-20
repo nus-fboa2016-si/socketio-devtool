@@ -60,7 +60,7 @@ function attachHooks(){
       }
 
       var __siDevtoolCloseListener__ = function(manager){
-        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'close', url: manager}}, '*');
+        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'forcedClose', url: manager}}, '*');
       }
       var hasCloseListener = false;
       for(var listener in managers[manager]._callbacks.$close){

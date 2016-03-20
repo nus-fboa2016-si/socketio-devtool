@@ -37,8 +37,9 @@ messenger.run = function() {
       case 'pong':
         handlePongPacket(message);
         break;
-      case 'close':
+      case 'forcedClose':
         handleForcedClose(message);
+        break;
       case 'pageRefresh':
         handlePageRefresh();
         break;
@@ -117,7 +118,7 @@ messenger.run = function() {
   };
 
   var handleForcedClose = function(packet){
-
+    messenger.emit('forcedClose', {url: packet.url, timestamp: Date.now()});
   };
 
 

@@ -50,3 +50,10 @@ export function closeSocket(packet){
     packet: packet
   }
 }
+
+export function forcedClose(packet){
+  return {
+    type: 'FORCED_CLOSE',
+    packet: packet
+  }
+}

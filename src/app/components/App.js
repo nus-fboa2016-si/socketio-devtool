@@ -2,7 +2,8 @@ require('../styles/app.scss')
 
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {addPacket, addSocket, setIoDetected, reinitialise, updateLatency, closeSocket} from '../actions/updateActions';
+import {addPacket, addSocket, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose}
+	from '../actions/updateActions';
 import CSSModules from 'react-css-modules';
 import SearchablePacketListBox from './SearchablePacketListBox';
 import PacketContentBox from './PacketContentBox';
@@ -17,7 +18,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		const {addSocket, addPacket, setIoDetected, reinitialise, updateLatency, closeSocket} = this.props;
+		const {addSocket, addPacket, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose} = this.props;
 		messenger.on('io', function(ioDetect){
 			if(ioDetect === 'global-io'){
 				setIoDetected();
@@ -40,6 +41,9 @@ class App extends React.Component {
 		messenger.on('close', function(packet){
 			//console.log('close socket', packet);
 			closeSocket(packet);
+		});
+		messenger.on('forcedClose', function(packet){
+			forcedClose(packet);
 		});
 		messenger.on('pong', function(packet){
 			updateLatency(packet);
@@ -78,5 +82,6 @@ export default connect(mapStateToProps, {
 	setIoDetected,
 	reinitialise,
 	updateLatency,
-	closeSocket
+	closeSocket,
+	forcedClose
 })(CSSModules(App,styles));
