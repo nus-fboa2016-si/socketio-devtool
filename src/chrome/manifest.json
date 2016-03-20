@@ -1,6 +1,6 @@
 {
-  "name": "Socket.io Dev-tool",
-  "version": "0.10.5",
+  "name": "Socket.io Devtool(alpha)",
+  "version": "0.0.1",
   "description": "",
   "devtools_page": "devtoolsBackground.html",
   "manifest_version": 2,
@@ -8,6 +8,10 @@
     "tabs",
     "<all_urls>"
   ],
+  "icons": {
+    "48": "icons/si48.png",
+    "128": "icons/si128.png"
+  },
   "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "web_accessible_resources": ["dist/checkForIO.js"],
   "background": {
