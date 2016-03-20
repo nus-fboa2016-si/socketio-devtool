@@ -3,7 +3,8 @@ const initialState = {
   packets: [],
   packetId: 1,
   isIoDetected: false,
-  keyword: ''
+  keyword: '',
+  currentTime: Date.now()
 };
 
 function updates(state=initialState, action){
@@ -39,7 +40,11 @@ function updates(state=initialState, action){
     case 'REINITIALISE':
       return initialState;
 
+    case 'TIMETICK':
+      return Object.assign({}, state, {currentTime: Date.now()});
+
     default: return state;
+
   }
 }
 

@@ -1,10 +1,25 @@
 import React, {PropTypes} from 'react';
 import CSS from 'react-css-modules';
 import styles from '../styles/socketinfo.scss';
-//import {connect} from 'react-redux';
-import {numberWithCommas} from '../../utils';
+import {numberWithCommas, dateFromNow} from '../../utils';
 
 class SocketInfo extends React.Component{
+
+  componentDidMount(){
+    console.log('mount');
+    this.timer();
+  }
+
+  timer(){
+    console.log('timer ticking');
+    //console.log(this);
+    this.props.timeTick();
+    window.setTimeout(this.timer.bind(this), 1000);
+  }
+
+  componentWillUnmount() {
+    window.clearTimeout(this.timer);
+  }
   render(){
     const {selectedSocket} = this.props;
     if(0 === Object.keys(selectedSocket).length){
@@ -36,7 +51,7 @@ class SocketInfo extends React.Component{
               </div>
               <div styleName="row">
                 <span styleName="row-title">ELAPSED:</span>
-                <span styleName="row-attrib"></span>
+                <span styleName="row-attrib">{dateFromNow(selectedSocket.timestamp)}</span>
               </div>
             </div>
           </div>
@@ -68,7 +83,8 @@ class SocketInfo extends React.Component{
 
 SocketInfo.propTypes = {
   selectedSocket: PropTypes.object.isRequired
-}
+};
+
 
 export default CSS(SocketInfo, styles, {allowMultiple: true});
 
