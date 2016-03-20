@@ -35,3 +35,4 @@ src/chrome/dist
 # auto-generated css files
 app/*.css
 app/*.css.map
+*.css.map
