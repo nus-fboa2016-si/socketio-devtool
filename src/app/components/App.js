@@ -33,6 +33,7 @@ class App extends React.Component {
 			addPacket(packet);
 		});
 		messenger.on('packetCreate', function(packet){
+			//console.log('packetCreate', packet);
 			packet.from = 'created';
 			addPacket(packet);
 		});

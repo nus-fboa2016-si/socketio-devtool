@@ -55,7 +55,7 @@ function attachHooks(){
       var __siDevtoolPongListener__ = function(pongPkt){
         window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'pong', url: manager, data: pongPkt}}, '*');
       }
-      if(!managers[manager]._callbacks.pong){
+      if(!managers[manager]._callbacks.$pong){
         managers[manager].on('pong', __siDevtoolPongListener__);
       }
 

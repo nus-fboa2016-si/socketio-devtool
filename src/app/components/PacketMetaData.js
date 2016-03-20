@@ -13,7 +13,7 @@ class PacketMetaData extends React.Component {
 					</span>
 				</div>
 				<div styleName='packet-timestamp'>
-					RECEIVED 
+					{this.props.isReceived ? 'RECEIVED' : 'CREATED'}
 					<span styleName='packet-meta-value'>
 						{this.props.elapsedTime}
 					</span>
@@ -25,7 +25,8 @@ class PacketMetaData extends React.Component {
 
 PacketMetaData.propTypes = {
 	packetType: PropTypes.string.isRequired,
-	elapsedTime: PropTypes.string.isRequired
+	elapsedTime: PropTypes.string.isRequired,
+	isReceived: PropTypes.string.isRequired
 }
 
 export default CSSModules(PacketMetaData, styles)

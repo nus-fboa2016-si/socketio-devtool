@@ -9,7 +9,6 @@ class PacketList extends React.Component {
 		let packetList = [];
 		for (var i = 0; i < packets.length; i++) {
 			let packet = packets[i];
-
 			if(socket.url === packet.url && socket.nsp === packet.nsp) {
 				packetList.push(
 					<Packet key={packet.id}

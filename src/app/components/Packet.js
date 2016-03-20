@@ -6,8 +6,8 @@ import { stringToColorCode } from '../../utils'
 
 class Packet extends React.Component {
 	render() {
-		const event = this.props.packet.data[0]
-		const color = '#' + stringToColorCode(event)
+		const event = this.props.packet.data[0];
+		const color = '#' + stringToColorCode(event);
 		return (
 			<li styleName={classnames('packet-container', {'selected': this.props.selected})}
 			    onClick={this.props.onClick}>
