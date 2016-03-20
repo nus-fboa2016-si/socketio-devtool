@@ -57,7 +57,8 @@ messenger.run = function() {
     var socket = {
       url: data.url,
       nsp: data.socket,
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      status: 'CONNECTED'
     };
     messenger.emit('socket', socket);
   };

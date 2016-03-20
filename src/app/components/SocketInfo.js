@@ -47,7 +47,7 @@ class SocketInfo extends React.Component{
             <div styleName="column">
               <div styleName="row">
                 <span styleName="row-title">STATUS:</span>
-                <span styleName="row-attrib"></span>
+                <span styleName="row-attrib">{selectedSocket.status}</span>
               </div>
               <div styleName="row">
                 <span styleName="row-title">ELAPSED:</span>
@@ -66,12 +66,6 @@ class SocketInfo extends React.Component{
               <div styleName="block-info">
                 <span styleName="block-title">EVENTS SENT:</span>
                 <span styleName="block-attrib">{numberWithCommas(selectedSocket.sentCount)}</span>
-              </div>
-            </div>
-            <div styleName="column">
-              <div styleName="block-info">
-                <span styleName="block-title">LATENCY:</span>
-                <span styleName="block-attrib"></span>
               </div>
             </div>
           </div>
