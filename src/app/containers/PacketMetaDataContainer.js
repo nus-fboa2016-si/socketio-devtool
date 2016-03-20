@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import PacketMetaData from '../components/PacketMetaData'
-import { updatePacketTime } from '../actions/timerActions'
 import { getPacketType, dateFromNow } from '../../utils'
 
 const mapStateToProps = (state) => {
