@@ -17,6 +17,17 @@ export function stringToColorCode(str) {
   return "00000".substring(0, 6 - color.length) + color;
 }
 
+export function colorLuminance(hex, lum) {
+	let newColor = "#";
+	for (var i = 0; i < 3; i++) {
+		let c = parseInt(hex.substr(i*2,2), 16);
+		c = Math.round(Math.min(Math.max(0, c + (c * lum)), 255)).toString(16);
+		newColor += ("00"+c).substr(c.length);
+	}
+
+	return newColor;
+}
+
 const MONTH_NAMES = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
 										 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const SEC_IN_DAY = 86400;
