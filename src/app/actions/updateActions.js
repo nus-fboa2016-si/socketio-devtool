@@ -36,3 +36,10 @@ export function timeTick() {
     type: 'TIMETICK'
   }
 }
+
+export function updateLatency(packet){
+  return {
+    type: 'UPDATE_LATENCY',
+    packet: packet
+  }
+}

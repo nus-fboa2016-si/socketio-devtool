@@ -21,12 +21,13 @@ function attachHooks(){
       }
       if (!hasDevtoolPktCreateListener) {
         var __siDevtoolPktCreateListener__ = function (msg) {
+          if(msg === undefined) return;
           window.postMessage({
             type: '__SOCKETIO_DEVTOOL__',
             data: {type: 'packetCreate', url: manager, data: msg.data, timestamp: Date.now()}
           }, '*');
         };
-        console.log('managersPacketCreate');
+        //console.log('managersPacketCreate');
         managers[manager].engine.on('packetCreate', __siDevtoolPktCreateListener__);
       }
 
@@ -40,11 +41,24 @@ function attachHooks(){
       }
       if(!hasDevtoolPktRcvListener){
         var __siDevtoolPktRcvListener__ = function(msg){
-          window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'packetRcv', url: manager, data: msg, timestamp: Date.now() }}, '*');
+          window.postMessage({
+            type: '__SOCKETIO_DEVTOOL__',
+            data: {type: 'packetRcv', url: manager, data: msg, timestamp: Date.now() }
+          }, '*');
         };
-        console.log('managersPacketRcv');
+        //console.log('managersPacketRcv');
         managers[manager].engine.on('data', __siDevtoolPktRcvListener__);
       }
+
+
+      //listen to pong packets
+      var __siDevtoolPongListener__ = function(pongPkt){
+        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'pong', url: manager, data: pongPkt}}, '*');
+      }
+      if(!managers[manager]._callbacks.pong){
+        managers[manager].on('pong', __siDevtoolPongListener__);
+      }
+
 
       var sockets = io.managers[manager].nsps;
       for(var skt in sockets) {

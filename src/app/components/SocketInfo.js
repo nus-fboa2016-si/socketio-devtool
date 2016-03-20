@@ -6,12 +6,12 @@ import {numberWithCommas, dateFromNow} from '../../utils';
 class SocketInfo extends React.Component{
 
   componentDidMount(){
-    console.log('mount');
+    //console.log('mount');
     this.timer();
   }
 
   timer(){
-    console.log('timer ticking');
+    //console.log('timer ticking');
     //console.log(this);
     this.props.timeTick();
     window.setTimeout(this.timer.bind(this), 1000);
@@ -66,6 +66,17 @@ class SocketInfo extends React.Component{
               <div styleName="block-info">
                 <span styleName="block-title">EVENTS SENT:</span>
                 <span styleName="block-attrib">{numberWithCommas(selectedSocket.sentCount)}</span>
+              </div>
+            </div>
+            <div styleName="column">
+              <div styleName="block-info">
+                <span styleName="block-title">LATENCY:</span>
+                {
+                  selectedSocket.latency === -1 ?
+                    <span styleName="block-attrib">CALC...</span>
+                    :
+                    <span styleName="block-attrib">{selectedSocket.latency + 'ms'}</span>
+                }
               </div>
             </div>
           </div>

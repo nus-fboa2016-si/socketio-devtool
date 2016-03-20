@@ -25,10 +25,11 @@ function updates(state=initialState, action){
       });
 
     case 'ADD_SOCKET':
-      sockets = Object.assign({}, state.sockets);
+      var sockets = Object.assign({}, state.sockets);
       sockets[action.socket.nsp] = action.socket;
       sockets[action.socket.nsp].receivedCount = 0;
       sockets[action.socket.nsp].sentCount = 0;
+      sockets[action.socket.nsp].latency = -1;
       return Object.assign({}, state, {sockets: sockets});
 
     case 'SET_KEYWORD':
@@ -40,6 +41,8 @@ function updates(state=initialState, action){
     case 'REINITIALISE':
       return initialState;
 
+    case 'UPDATE_LATENCY':
+      return updateSocketLatency(state, action.packet);
     case 'TIMETICK':
       return Object.assign({}, state, {currentTime: Date.now()});
 
@@ -47,5 +50,15 @@ function updates(state=initialState, action){
 
   }
 }
+
+var updateSocketLatency = function(state, packet){
+  var sockets = Object.assign({}, state.sockets);
+  for(var socket in sockets){
+    if(sockets.hasOwnProperty(socket) && sockets[socket].url === packet.url){
+      sockets[socket].latency = packet.data;
+    }
+  }
+  return Object.assign({}, state, {sockets: sockets});
+};
 
 export default updates;

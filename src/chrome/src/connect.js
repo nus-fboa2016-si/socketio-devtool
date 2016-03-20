@@ -34,6 +34,9 @@ messenger.run = function() {
       case 'packetRcv':
         handlePacketRcv(message);
         break;
+      case 'pong':
+        handlePongPacket(message);
+        break;
       case 'pageRefresh':
         handlePageRefresh();
         break;
@@ -107,6 +110,11 @@ messenger.run = function() {
     } catch (e) {
       console.error(e);
     }
+  };
+
+
+  var handlePongPacket = function(pongPkt){
+    messenger.emit('pong', pongPkt);
   };
 
   var handlePageRefresh = function(){
