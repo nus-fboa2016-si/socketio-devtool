@@ -1,4 +1,4 @@
-#basic skeleton for Chrome Devtool
+# Chrome Devtool for Socket.io
 
 This is the alpha version of the dev tool. To install from source:
 
@@ -13,7 +13,7 @@ This is the alpha version of the dev tool. To install from source:
 
 This is a really really early version of the dev-tool. A lot of features are still broken/unsupported. Please file issues to report broken stuff.
 
-
+It is also available in the [Chrome Web Store](https://chrome.google.com/webstore/detail/socketio-devtoolalpha/pohgadllhbmnojaedmmnnacpefgaldge).
 
 
 
