@@ -5,7 +5,7 @@ import PacketList from '../components/PacketList'
 const mapStateToProps = (state) => {
 	const keyword = state.updates.keyword.toLowerCase()
 	
-	let packets = []
+	let packets = [];
 
   if (keyword.length <= 0) {
   	packets = state.updates.packets
@@ -18,10 +18,10 @@ const mapStateToProps = (state) => {
 	    }
 	  }
   }
-  
   return {
   	packets: packets,
-  	selectedPacket: state.select.packetFilter
+  	selectedPacket: state.select.packetFilter,
+		selectedSocket: state.select.socketFilter
   }
 }
 

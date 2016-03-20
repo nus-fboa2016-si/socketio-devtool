@@ -73,14 +73,13 @@ messenger.run = function() {
         return;
       }
       Parser.decode(packet.data, function (url, timestamp, data) {
-        var packet = {
-          url: url,
-          type: data.type,
-          nsp: data.nsp,
-          data: data.data,
-          timestamp: timestamp
-        };
-        messenger.emit('packetCreate', packet);
+
+
+        switch(data.type){
+          case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, data)); break;
+          default:
+            return;
+        }
 
       }.bind(this, packet.url, packet.timestamp));
 
@@ -96,14 +95,11 @@ messenger.run = function() {
         return;
       }
       Parser.decode(packet.data, function (url, timestamp, data) {
-        var packet = {
-          url: url,
-          type: data.type,
-          nsp: data.nsp,
-          data: data.data,
-          timestamp: timestamp
-        };
-        messenger.emit('packetRcv', packet);
+        switch(data.type){
+          case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, data)); break;
+          case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, data));
+          default: return;
+        }
 
       }.bind(this, packet.url, packet.timestamp));
 
@@ -111,7 +107,6 @@ messenger.run = function() {
       console.error(e);
     }
   };
-
 
   var handlePongPacket = function(pongPkt){
     messenger.emit('pong', pongPkt);
@@ -125,5 +120,24 @@ messenger.run = function() {
   inject(chrome.runtime.getURL('dist/checkForIO.js'));
 };
 
+var generateNewSocketPacket = function(url, timestamp, data){
+  var socket = {
+    url: data.url ? data.url: url,
+    nsp: data.socket ? data.socket : data.nsp,
+    timestamp: timestamp ? timestamp : Date.now(),
+    status: 'CONNECTED'
+  };
+  return socket;
+};
+var generateContentPacket = function(url, timestamp, data) {
+  var packet = {
+    url: url,
+    type: data.type,
+    nsp: data.nsp,
+    data: data.data,
+    timestamp: timestamp
+  };
+  return packet;
+};
 
 export default messenger;

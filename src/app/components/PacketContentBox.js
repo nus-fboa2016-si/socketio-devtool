@@ -7,7 +7,7 @@ import styles from '../styles/packets_panel.scss'
 
 class PacketContentBox extends React.Component {
 	render() {
-		if (this.props.isIoDetected) {
+		if (this.props.isIoDetected && this.props.selectedSocket !== {}) {
 			return (
 				<div styleName='right-content'>
 					<PacketMetaDataContainer />
@@ -24,7 +24,8 @@ class PacketContentBox extends React.Component {
 
 const mapStateToProps = function(state) {
 	return {
-		isIoDetected: state.updates.isIoDetected
+		isIoDetected: state.updates.isIoDetected,
+		selectedSocket: state.select.socketFilter
 	}
 }
 

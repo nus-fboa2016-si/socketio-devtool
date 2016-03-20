@@ -5,16 +5,20 @@ import styles from '../styles/packet_list.scss'
 
 class PacketList extends React.Component {
 	renderPacketList(packets) {
-		let packetList = []
+		let socket = this.props.selectedSocket;
+		let packetList = [];
 		for (var i = 0; i < packets.length; i++) {
-			let packet = packets[i]
-			packetList.push(
-				<Packet key={packet.id}
-								packet={packet}
-						    onClick={this.props.onPacketClick.bind(this, packet)} 
-						    selected={packet === this.props.selectedPacket} 
-				/>
-			)
+			let packet = packets[i];
+
+			if(socket.url === packet.url && socket.nsp === packet.nsp) {
+				packetList.push(
+					<Packet key={packet.id}
+									packet={packet}
+									onClick={this.props.onPacketClick.bind(this, packet)}
+									selected={packet === this.props.selectedPacket}
+					/>
+				)
+			}
 		}
 
 		return packetList

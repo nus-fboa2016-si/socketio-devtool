@@ -7,7 +7,7 @@ import styles from '../styles/packets_panel.scss'
 
 class SearchablePacketListBox extends React.Component {
 	render() {
-		if (this.props.isIoDetected) {
+		if (this.props.isIoDetected && this.props.selectedSocket !== {}) {
 			const keyword = this.props.keyword
 			return (
 				<div styleName='left-content'>
@@ -25,7 +25,8 @@ class SearchablePacketListBox extends React.Component {
 
 const mapStateToProps = function(state) {
 	return {
-		isIoDetected: state.updates.isIoDetected
+		isIoDetected: state.updates.isIoDetected,
+		selectedSocket: state.select.socketFilter
 	}
 }
 
