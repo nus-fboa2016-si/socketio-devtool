@@ -26,7 +26,7 @@ class PacketMetaData extends React.Component {
 PacketMetaData.propTypes = {
 	packetType: PropTypes.string.isRequired,
 	elapsedTime: PropTypes.string.isRequired,
-	isReceived: PropTypes.string.isRequired
+	isReceived: PropTypes.boolean.isRequired
 }
 
 export default CSSModules(PacketMetaData, styles)
