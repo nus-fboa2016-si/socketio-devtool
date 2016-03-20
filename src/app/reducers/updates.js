@@ -43,6 +43,8 @@ function updates(state=initialState, action){
 
     case 'UPDATE_LATENCY':
       return updateSocketLatency(state, action.packet);
+    case 'CLOSE_SOCKET':
+      return closeSocket(state, action.packet);
     case 'TIMETICK':
       return Object.assign({}, state, {currentTime: Date.now()});
 
@@ -50,6 +52,15 @@ function updates(state=initialState, action){
 
   }
 }
+
+var closeSocket = function(state, packet){
+  var sockets = Object.assign({}, state.sockets);
+  if(sockets.hasOwnProperty(packet.nsp)){
+    sockets[packet.nsp].status = 'CLOSED';
+    sockets[packet.nsp].timestamp = packet.timestamp;
+  }
+  return Object.assign({}, state, {sockets: sockets});
+};
 
 var updateSocketLatency = function(state, packet){
   var sockets = Object.assign({}, state.sockets);

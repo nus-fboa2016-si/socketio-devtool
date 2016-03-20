@@ -2,7 +2,7 @@ require('../styles/app.scss')
 
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {addPacket, addSocket, setIoDetected, reinitialise, updateLatency} from '../actions/updateActions';
+import {addPacket, addSocket, setIoDetected, reinitialise, updateLatency, closeSocket} from '../actions/updateActions';
 import CSSModules from 'react-css-modules';
 import SearchablePacketListBox from './SearchablePacketListBox';
 import PacketContentBox from './PacketContentBox';
@@ -17,7 +17,7 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		const {addSocket, addPacket, setIoDetected, reinitialise, updateLatency} = this.props;
+		const {addSocket, addPacket, setIoDetected, reinitialise, updateLatency, closeSocket} = this.props;
 		messenger.on('io', function(ioDetect){
 			if(ioDetect === 'global-io'){
 				setIoDetected();
@@ -36,6 +36,10 @@ class App extends React.Component {
 			//console.log('packetCreate', packet);
 			packet.from = 'created';
 			addPacket(packet);
+		});
+		messenger.on('close', function(packet){
+			//console.log('close socket', packet);
+			closeSocket(packet);
 		});
 		messenger.on('pong', function(packet){
 			updateLatency(packet);
@@ -68,19 +72,11 @@ const mapStateToProps = function(state){
 	return state;
 };
 
-const mapDispatchToProps = function(){
-	return {
-		addSocket,
-		addPacket,
-		setIoDetected,
-		reinitialise,
-		updateLatency
-	};
-}
 export default connect(mapStateToProps, {
 	addSocket,
 	addPacket,
 	setIoDetected,
 	reinitialise,
-	updateLatency
+	updateLatency,
+	closeSocket
 })(CSSModules(App,styles));

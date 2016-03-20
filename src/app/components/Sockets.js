@@ -43,7 +43,8 @@ Sockets.propTypes = {
 
 const mapStateToProps = function(state){
   return {
-    selectedSocket: state.select.socketFilter
+    selectedSocket: state.select.socketFilter,
+    sockets: state.updates.sockets
   }
 };
 export default connect(mapStateToProps, {selectSocket})(CSS(Sockets, styles));

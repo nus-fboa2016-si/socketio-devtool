@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import classnames from 'classnames';
 import CSS from 'react-css-modules';
 import styles from '../styles/socketinfo.scss';
 import {numberWithCommas, dateFromNow} from '../../utils';
@@ -47,10 +48,10 @@ class SocketInfo extends React.Component{
             <div styleName="column">
               <div styleName="row">
                 <span styleName="row-title">STATUS:</span>
-                <span styleName="row-attrib">{selectedSocket.status}</span>
+                <span styleName={classnames("row-attrib", {'closed': selectedSocket.status === 'CLOSED'})}>{selectedSocket.status}</span>
               </div>
               <div styleName="row">
-                <span styleName="row-title">ELAPSED:</span>
+                <span styleName="row-title">{selectedSocket.status === 'CLOSED' ? 'CLOSED SINCE:' : 'ELAPSED:'}</span>
                 <span styleName="row-attrib">{dateFromNow(selectedSocket.timestamp)}</span>
               </div>
             </div>

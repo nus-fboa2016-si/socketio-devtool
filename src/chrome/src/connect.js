@@ -37,6 +37,8 @@ messenger.run = function() {
       case 'pong':
         handlePongPacket(message);
         break;
+      case 'close':
+        handleForcedClose(message);
       case 'pageRefresh':
         handlePageRefresh();
         break;
@@ -74,8 +76,9 @@ messenger.run = function() {
       }
       Parser.decode(packet.data, function (url, timestamp, data) {
 
-
+        console.log(url, timestamp, data);
         switch(data.type){
+          case 1: messenger.emit('close', generateClosePacket(url, timestamp, data)); break;
           case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, data)); break;
           default:
             return;
@@ -97,6 +100,7 @@ messenger.run = function() {
       Parser.decode(packet.data, function (url, timestamp, data) {
         switch(data.type){
           case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, data)); break;
+          case 1: messenger.emit('close', generateClosePacket(url, timestamp, data)); break;
           case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, data));
           default: return;
         }
@@ -111,6 +115,11 @@ messenger.run = function() {
   var handlePongPacket = function(pongPkt){
     messenger.emit('pong', pongPkt);
   };
+
+  var handleForcedClose = function(packet){
+
+  };
+
 
   var handlePageRefresh = function(){
     inject(chrome.runtime.getURL('dist/checkForIO.js'));
@@ -138,6 +147,15 @@ var generateContentPacket = function(url, timestamp, data) {
     timestamp: timestamp
   };
   return packet;
+};
+
+var generateClosePacket = function(url, timestamp, data){
+  var packet = {
+    url: url,
+    timestamp: timestamp,
+    nsp: data.nsp
+  };
+  return packet
 };
 
 export default messenger;

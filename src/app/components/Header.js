@@ -10,7 +10,7 @@ class Header extends React.Component {
     const {isIoDetected, sockets, selectedSocket, timeTick} = this.props;
     return (
       <div styleName="header">
-        <Sockets sockets={sockets}/>
+        <Sockets/>
         {isIoDetected ?
           Object.keys(sockets).length === 0 ?
               <div styleName="header-msg">Detecting Sockets...</div>

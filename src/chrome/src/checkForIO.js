@@ -59,8 +59,20 @@ function attachHooks(){
         managers[manager].on('pong', __siDevtoolPongListener__);
       }
 
+      var __siDevtoolCloseListener__ = function(manager){
+        window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'close', url: manager}}, '*');
+      }
+      var hasCloseListener = false;
+      for(var listener in managers[manager]._callbacks.$close){
+        if('__siDevtoolCloseListener__' === io.managers[manager]._callbacks.$close[listener]){
+          hasCloseListener = true;
+        }
+      }
+      if(!hasCloseListener){
+        managers[manager].on('close', __siDevtoolCloseListener__.bind(this, manager));
+      }
 
-      var sockets = io.managers[manager].nsps;
+      var sockets = managers[manager].nsps;
       for(var skt in sockets) {
         if (sockets.hasOwnProperty(skt)) {
           window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'socket', url: manager, socket: skt}}, '*');

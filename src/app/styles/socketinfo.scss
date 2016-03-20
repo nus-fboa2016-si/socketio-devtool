@@ -42,7 +42,11 @@
   margin-right: 1rem;
 }
 .row-attrib{
+  font-weight: bold;
   color: darken($clr-darkgrey, 5%);
+  &.closed{
+    color: $clr-darkred;
+  }
 }
 .block-attrib{
   color: black;

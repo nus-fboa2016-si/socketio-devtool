@@ -43,3 +43,10 @@ export function updateLatency(packet){
     packet: packet
   }
 }
+
+export function closeSocket(packet){
+  return {
+    type: 'CLOSE_SOCKET',
+    packet: packet
+  }
+}
