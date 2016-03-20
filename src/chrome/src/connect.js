@@ -60,6 +60,9 @@ messenger.run = function() {
 
 
   var handleSocket = function (data) {
+    if(data.status === 'CLOSED'){
+      return;
+    }
     var socket = {
       url: data.url,
       nsp: data.socket,

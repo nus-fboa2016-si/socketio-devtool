@@ -75,7 +75,7 @@ function attachHooks(){
       var sockets = managers[manager].nsps;
       for(var skt in sockets) {
         if (sockets.hasOwnProperty(skt)) {
-          window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'socket', url: manager, socket: skt}}, '*');
+          window.postMessage({type: '__SOCKETIO_DEVTOOL__', data: {type: 'socket', url: manager, socket: skt, status: sockets[skt].connected ? 'CONNECTED' : 'CLOSED'}}, '*');
         }
       }
     }
