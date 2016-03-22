@@ -4,11 +4,11 @@ import CSS from 'react-css-modules';
 import styles from '../styles/sockets.scss';
 
 import Socket from './Socket';
-import {selectSocket} from '../actions/selectActions';
 
 class Sockets extends React.Component {
   render(){
     const sockets = this.props.sockets;
+    console.log('rendering:', sockets);
       return (
         <div styleName="sockets">
           {this.renderSockets(sockets)}
@@ -18,15 +18,13 @@ class Sockets extends React.Component {
   renderSockets(sockets){
     let socketArr = [];
     for(var socket in sockets){
-      if(sockets.hasOwnProperty(socket)){
         socketArr.push(
           <Socket key={sockets[socket].nsp}
                   socket={sockets[socket]}
                   onClick={this.onClick.bind(this, sockets[socket])}
-                  selected={socket === this.props.selectedSocket.nsp &&
-                  sockets[socket].url === this.props.selectedSocket.url}
+                  selected={sockets[socket].sid === this.props.selectedSocket.sid &&
+                    sockets[socket].nsp === this.props.selectedSocket.nsp}
           />);
-      }
     }
     return socketArr;
   };
@@ -42,9 +40,10 @@ Sockets.propTypes = {
 };
 
 const mapStateToProps = function(state){
+  //console.log('sockets', state.updates.sockets);
   return {
     selectedSocket: state.select.socketFilter,
     sockets: state.updates.sockets
   }
 };
-export default connect(mapStateToProps, {selectSocket})(CSS(Sockets, styles));
+export default connect(mapStateToProps, {})(CSS(Sockets, styles));

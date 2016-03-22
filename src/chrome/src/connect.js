@@ -60,6 +60,7 @@ messenger.run = function() {
 
 
   var handleSocket = function (data) {
+    console.log('handleSocket', data);
     if(data.status === 'CLOSED'){
       return;
     }
@@ -67,7 +68,8 @@ messenger.run = function() {
       url: data.url,
       nsp: data.socket,
       timestamp: Date.now(),
-      status: 'CONNECTED'
+      status: 'CONNECTED',
+      sid: data.sid
     };
     messenger.emit('socket', socket);
   };
@@ -78,17 +80,17 @@ messenger.run = function() {
         //ping packet, ignore
         return;
       }
-      Parser.decode(packet.data, function (url, timestamp, data) {
+      Parser.decode(packet.data, function (url, timestamp, sid, data) {
 
-        console.log(url, timestamp, data);
+        console.log(url, timestamp, sid, data);
         switch(data.type){
-          case 1: messenger.emit('close', generateClosePacket(url, timestamp, data)); break;
-          case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, data)); break;
+          case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
+          case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, sid, data)); break;
           default:
             return;
         }
 
-      }.bind(this, packet.url, packet.timestamp));
+      }.bind(this, packet.url, packet.timestamp, packet.sid));
 
     } catch (e) {
       console.error(e);
@@ -101,15 +103,15 @@ messenger.run = function() {
         //ping packet, ignore
         return;
       }
-      Parser.decode(packet.data, function (url, timestamp, data) {
+      Parser.decode(packet.data, function (url, timestamp, sid, data) {
         switch(data.type){
-          case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, data)); break;
-          case 1: messenger.emit('close', generateClosePacket(url, timestamp, data)); break;
-          case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, data));
+          case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, sid, data)); break;
+          case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
+          case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, sid, data));
           default: return;
         }
 
-      }.bind(this, packet.url, packet.timestamp));
+      }.bind(this, packet.url, packet.timestamp, packet.sid));
 
     } catch (e) {
       console.error(e);
@@ -133,31 +135,34 @@ messenger.run = function() {
   inject(chrome.runtime.getURL('dist/checkForIO.js'));
 };
 
-var generateNewSocketPacket = function(url, timestamp, data){
+var generateNewSocketPacket = function(url, timestamp, sid, data){
   var socket = {
     url: data.url ? data.url: url,
     nsp: data.socket ? data.socket : data.nsp,
     timestamp: timestamp ? timestamp : Date.now(),
-    status: 'CONNECTED'
+    status: 'CONNECTED',
+    sid: sid
   };
   return socket;
 };
-var generateContentPacket = function(url, timestamp, data) {
+var generateContentPacket = function(url, timestamp, sid, data) {
   var packet = {
     url: url,
     type: data.type,
     nsp: data.nsp,
     data: data.data,
-    timestamp: timestamp
+    timestamp: timestamp,
+    sid: sid
   };
   return packet;
 };
 
-var generateClosePacket = function(url, timestamp, data){
+var generateClosePacket = function(url, timestamp, sid, data){
   var packet = {
     url: url,
     timestamp: timestamp,
-    nsp: data.nsp
+    nsp: data.nsp,
+    sid: sid
   };
   return packet
 };

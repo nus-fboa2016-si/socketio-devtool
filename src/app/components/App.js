@@ -25,7 +25,7 @@ class App extends React.Component {
 			}
 		});
 		messenger.on('socket', function(socket){
-			//console.log('socket', socket);
+			console.log('socket', socket);
 			addSocket(socket);
 		});
 		messenger.on('packetRcv', function(packet){

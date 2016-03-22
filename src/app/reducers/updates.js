@@ -15,9 +15,9 @@ function updates(state=initialState, action){
       packet['id'] = state.packetId;
 
       action.packet.from === 'received' ?
-        sockets[action.packet.nsp].receivedCount++
+        sockets[getSktName(action.packet)].receivedCount++
         :
-        sockets[action.packet.nsp].sentCount++;
+        sockets[getSktName(action.packet)].sentCount++;
       return Object.assign({}, state, {
         packets: [...state.packets, packet],
         sockets: sockets,
@@ -25,11 +25,25 @@ function updates(state=initialState, action){
       });
 
     case 'ADD_SOCKET':
+      //console.log('add socket');
       var sockets = Object.assign({}, state.sockets);
-      sockets[action.socket.nsp] = action.socket;
-      sockets[action.socket.nsp].receivedCount = 0;
-      sockets[action.socket.nsp].sentCount = 0;
-      sockets[action.socket.nsp].latency = -1;
+      var socket = sockets[getSktName(action.socket)];
+      if (socket) {
+        //console.log('non-null', socket);
+        if (socket.status !== action.socket.status) {
+          sockets[getSktName(action.socket)].status = action.socket.status;
+          sockets[getSktName(action.socket)].receivedCount = 0;
+          sockets[getSktName(action.socket)].sentCount = 0;
+          sockets[getSktName(action.socket)].latency = -1;
+        }
+      } else {
+        //console.log('null', socket);
+        sockets[getSktName(action.socket)] = action.socket;
+        sockets[getSktName(action.socket)].receivedCount = 0;
+        sockets[getSktName(action.socket)].sentCount = 0;
+        sockets[getSktName(action.socket)].latency = -1;
+      }
+      console.log(' update sockets', sockets);
       return Object.assign({}, state, {sockets: sockets});
 
     case 'SET_KEYWORD':
@@ -53,6 +67,10 @@ function updates(state=initialState, action){
     default: return state;
 
   }
+}
+
+var getSktName = function(packet){
+  return packet.sid + packet.nsp;
 }
 
 var closeSocket = function(state, packet){
