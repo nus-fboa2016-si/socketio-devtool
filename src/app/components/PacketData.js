@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react'
 import CSSModules from 'react-css-modules'
 import styles from '../styles/packet_data.scss'
 import Highlight from 'react-highlight'
+import Highlighter from 'react-highlighter'
 
 class PacketData extends React.Component {
 	renderPacketData(packet) {
@@ -10,7 +11,10 @@ class PacketData extends React.Component {
 
 			return (
 				<Highlight styleName='packet-data'>
-					{packetData}
+					<Highlighter search={this.props.searchQuery} 
+											 matchStyle={{ backgroundColor: '#00ff00' }}>
+						{packetData}
+					</Highlighter>
 				</Highlight>
 			)
 		}
@@ -27,7 +31,8 @@ class PacketData extends React.Component {
 }
 
 PacketData.propTypes = {
-	selectedPacket: PropTypes.object.isRequired
+	selectedPacket: PropTypes.object.isRequired,
+	searchQuery: PropTypes.string.isRequired
 }
 
 export default CSSModules(PacketData, styles)

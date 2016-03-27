@@ -8,13 +8,13 @@ class Packet extends React.Component {
 	render() {
 		const event = this.props.packet.data[0];
 		let color = stringToColorCode(event);
-		console.log("COLOR BEFORE " + color);
+
 		if (this.props.packet.from === 'received') {
 			color = colorLuminance(color, -0.2);
 		} else {
 			color = colorLuminance(color, 0.2);
 		}
-		console.log(color);
+
 		return (
 			<li styleName={classnames('packet-container', {'selected': this.props.selected})}
 			    onClick={this.props.onClick}>
