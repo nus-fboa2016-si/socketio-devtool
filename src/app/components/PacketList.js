@@ -5,19 +5,16 @@ import styles from '../styles/packet_list.scss'
 
 class PacketList extends React.Component {
 	renderPacketList(packets) {
-		let socket = this.props.selectedSocket;
 		let packetList = [];
 		for (var i = 0; i < packets.length; i++) {
 			let packet = packets[i];
-			if(socket.url === packet.url && socket.nsp === packet.nsp) {
-				packetList.push(
-					<Packet key={packet.id}
-									packet={packet}
-									onClick={this.props.onPacketClick.bind(this, packet)}
-									selected={packet === this.props.selectedPacket}
-					/>
-				)
-			}
+			packetList.push(
+				<Packet key={packet.id}
+								packet={packet}
+								onClick={this.props.onPacketClick.bind(this, packet)}
+								selected={packet === this.props.selectedPacket}
+				/>
+			)
 		}
 
 		return packetList
@@ -27,13 +24,15 @@ class PacketList extends React.Component {
 		return (
 			<ul styleName='packet-list'>
 				{this.renderPacketList(this.props.packets)}
-			</ul>
+			</ul>	
 		)
-	}
+	}	
 }
 
 PacketList.propTypes = {
-	packets: PropTypes.array.isRequired
+	packets: PropTypes.array.isRequired,
+	selectedPacket: PropTypes.object.isRequired,
+	onPacketClick: PropTypes.func.isRequired
 }
 
 export default CSSModules(PacketList, styles)

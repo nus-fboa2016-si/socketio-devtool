@@ -3,7 +3,8 @@ import PacketData from '../components/PacketData'
 
 const mapStateToProps = (state) => {
 	return {
-		selectedPacket: state.select.packetFilter
+		selectedPacket: state.select.packetFilter,
+		searchQuery: state.updates.keyword
 	}	
 }
 

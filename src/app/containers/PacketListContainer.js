@@ -4,24 +4,26 @@ import PacketList from '../components/PacketList'
 
 const mapStateToProps = (state) => {
 	const keyword = state.updates.keyword.toLowerCase()
+	const selectedSocket = state.select.socketFilter
 	
-	let packets = [];
+	let packets = []
 
-  if (keyword.length <= 0) {
-  	packets = state.updates.packets
-  } else {
-  	for (var i = 0; i < state.updates.packets.length; i++) {
-	    let packet = state.updates.packets[i]
-	    let packetData = JSON.stringify(packet.data[1], null, 2).toLowerCase()
-	    if (~packetData.indexOf(keyword)) {
+	for (var i = 0; i < state.updates.packets.length; i++) {
+		let packet = state.updates.packets[i]
+		let packetData = JSON.stringify(packet.data[1], null, 2).toLowerCase()
+		if (selectedSocket.url === packet.url && 
+			  selectedSocket.nsp === packet.nsp) {
+			if (keyword.length <= 0) {
+				packets.push(packet)
+			} else if (~packetData.indexOf(keyword)) {
 	      packets.push(packet)
 	    }
-	  }
-  }
+		}
+	}
+
   return {
   	packets: packets,
-  	selectedPacket: state.select.packetFilter,
-		selectedSocket: state.select.socketFilter
+  	selectedPacket: state.select.packetFilter
   }
 }
 
