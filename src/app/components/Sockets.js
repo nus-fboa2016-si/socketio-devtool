@@ -19,7 +19,7 @@ class Sockets extends React.Component {
     let socketArr = [];
     for(var socket in sockets){
         socketArr.push(
-          <Socket key={sockets[socket].nsp}
+          <Socket key={sockets[socket].sid+sockets[socket].nsp}
                   socket={sockets[socket]}
                   onClick={this.onClick.bind(this, sockets[socket])}
                   selected={sockets[socket].sid === this.props.selectedSocket.sid &&
