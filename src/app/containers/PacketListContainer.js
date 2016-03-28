@@ -12,7 +12,8 @@ const mapStateToProps = (state) => {
 		let packet = state.updates.packets[i]
 		let packetData = JSON.stringify(packet.data[1], null, 2).toLowerCase()
 		if (selectedSocket.url === packet.url && 
-			  selectedSocket.nsp === packet.nsp) {
+			  selectedSocket.nsp === packet.nsp &&
+				selectedSocket.sid === packet.sid) {
 			if (keyword.length <= 0) {
 				packets.push(packet)
 			} else if (~packetData.indexOf(keyword)) {
