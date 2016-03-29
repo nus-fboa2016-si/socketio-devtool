@@ -6,11 +6,9 @@ var Parser = require('./parser');
 
 var messenger = {};
 Emitter(messenger);
-//connect to background.js with name 'devtool-page'
 
-var Emitter = require('component-emitter');
-var messenger = {};
-Emitter(messenger);
+var packetRcvBuffer = [];
+var packetCreateBuffer = [];
 messenger.run = function() {
   var backgroundPageConnection = chrome.runtime.connect({
     name: "devtool-page"
@@ -60,7 +58,7 @@ messenger.run = function() {
 
 
   var handleSocket = function (data) {
-    console.log('handleSocket', data);
+    //console.log('handleSocket', data);
     if(data.status === 'CLOSED'){
       return;
     }
@@ -82,10 +80,11 @@ messenger.run = function() {
       }
       Parser.decode(packet.data, function (url, timestamp, sid, data) {
 
-        console.log(url, timestamp, sid, data);
+        //console.log(url, timestamp, sid, data);
         switch(data.type){
           case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
-          case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, sid, data)); break;
+          case 2: addToBuffer('create', generateContentPacket(url, timestamp, sid, data)); break;
+          //case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, sid, data)); break;
           default:
             return;
         }
@@ -107,7 +106,8 @@ messenger.run = function() {
         switch(data.type){
           case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, sid, data)); break;
           case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
-          case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, sid, data));
+          case 2: addToBuffer('receive', generateContentPacket(url, timestamp, sid, data)); break;
+          //case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, sid, data));
           default: return;
         }
 
@@ -133,8 +133,34 @@ messenger.run = function() {
   };
 
   inject(chrome.runtime.getURL('dist/checkForIO.js'));
+
+  timer();
 };
 
+var timer = function(){
+  flushToApp();
+  //16ms for 60fps.
+  window.setTimeout(timer, 16);
+};
+
+var flushToApp = function(){
+  if(packetCreateBuffer.length > 0){
+    messenger.emit('packetCreate', packetCreateBuffer);
+    packetCreateBuffer = [];
+  }
+  if(packetRcvBuffer.length > 0){
+    messenger.emit('packetRcv', packetRcvBuffer);
+    packetRcvBuffer = [];
+  }
+};
+
+var addToBuffer = function(buffer, packet){
+  if(buffer === 'create'){
+    packetCreateBuffer.push(packet);
+  }else{
+    packetRcvBuffer.push(packet);
+  }
+}
 var generateNewSocketPacket = function(url, timestamp, sid, data){
   var socket = {
     url: data.url ? data.url: url,

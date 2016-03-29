@@ -2,7 +2,7 @@ require('../styles/app.scss')
 
 import React, {PropTypes} from 'react';
 import { connect } from 'react-redux';
-import {addPacket, addSocket, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose}
+import {addPacket, addPackets, addSocket, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose}
 	from '../actions/updateActions';
 import CSSModules from 'react-css-modules';
 import SearchablePacketListBox from './SearchablePacketListBox';
@@ -18,25 +18,42 @@ class App extends React.Component {
 	}
 
 	componentDidMount(){
-		const {addSocket, addPacket, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose} = this.props;
+		const {addSocket, addPacket, addPackets, setIoDetected, reinitialise, updateLatency, closeSocket, forcedClose} = this.props;
 		messenger.on('io', function(ioDetect){
 			if(ioDetect === 'global-io'){
 				setIoDetected();
 			}
 		});
 		messenger.on('socket', function(socket){
-			console.log('socket', socket);
+			//console.log('socket', socket);
 			addSocket(socket);
 		});
 		messenger.on('packetRcv', function(packet){
-			//console.log('packetRcv', packet);
-			packet.from = 'received';
-			addPacket(packet);
+			if(Array.isArray(packet)) {
+				addPackets(
+					packet.map(function (pkt) {
+						pkt.from = 'received';
+						return pkt;
+					})
+				);
+			}else{
+				packet.from = 'created';
+				addPacket(packet);
+			}
 		});
 		messenger.on('packetCreate', function(packet){
 			//console.log('packetCreate', packet);
-			packet.from = 'created';
-			addPacket(packet);
+			if(Array.isArray(packet)) {
+				addPackets(
+					packet.map(function (pkt) {
+						pkt.from = 'created';
+						return pkt;
+					})
+				);
+			}else{
+				packet.from = 'created';
+				addPacket(packet);
+			}
 		});
 		messenger.on('close', function(packet){
 			//console.log('close socket', packet);
@@ -79,6 +96,7 @@ const mapStateToProps = function(state){
 export default connect(mapStateToProps, {
 	addSocket,
 	addPacket,
+	addPackets,
 	setIoDetected,
 	reinitialise,
 	updateLatency,

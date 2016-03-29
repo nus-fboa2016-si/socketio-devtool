@@ -12,6 +12,7 @@ function updates(state=initialState, action){
     case 'ADD_PACKET':
       let sockets = Object.assign({}, state.sockets);
       let packet = Object.assign({}, action.packet);
+      //console.log('addpacket', packet);
       packet['id'] = state.packetId;
 
       action.packet.from === 'received' ?
@@ -23,7 +24,23 @@ function updates(state=initialState, action){
         sockets: sockets,
         packetId: state.packetId + 1
       });
-
+    case 'ADD_PACKETS':
+      sockets = Object.assign({}, state.sockets);
+      let packets = action.packets.map(function(packet, i){
+        packet.id = state.packetId + i;
+        if(packet.from === 'received'){
+          sockets[getSktName(packet)].receivedCount++;
+        }else{
+          sockets[getSktName(packet)].sentCount++;
+        }
+        return packet;
+      });
+      console.log('addpackets', packets);
+      return Object.assign({}, state, {
+        packets: [...state.packets, ...packets],
+        sockets: sockets,
+        packetId: state.packetId + packets.length
+      });
     case 'ADD_SOCKET':
       //console.log('add socket');
       var sockets = Object.assign({}, state.sockets);
@@ -43,7 +60,7 @@ function updates(state=initialState, action){
         sockets[getSktName(action.socket)].sentCount = 0;
         sockets[getSktName(action.socket)].latency = -1;
       }
-      console.log(' update sockets', sockets);
+      //console.log(' update sockets', sockets);
       return Object.assign({}, state, {sockets: sockets});
 
     case 'SET_KEYWORD':
@@ -84,7 +101,7 @@ var closeSocket = function(state, packet){
 
 var forcedClose = function(state, packet){
   var sockets = Object.assign({}, state.sockets);
-  console.log(sockets, packet);
+  //console.log(sockets, packet);
   for(var socket in sockets){
     if(sockets.hasOwnProperty(socket) && sockets[socket].url === packet.url){
       sockets[socket].status = 'CLOSED';

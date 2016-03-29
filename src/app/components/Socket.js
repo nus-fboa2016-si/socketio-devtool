@@ -6,7 +6,7 @@ import classnames from 'classnames';
 class Socket extends React.Component {
   render(){
     const {socket, selected, onClick} = this.props;
-    console.log('socket', socket);
+    //console.log('socket', socket);
     return (
       <div styleName={classnames("socket", {'selected': selected})} onClick={onClick}>
         {socket.url}

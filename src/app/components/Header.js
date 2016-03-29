@@ -9,7 +9,7 @@ import {selectSocket} from '../actions/selectActions';
 class Header extends React.Component {
   render(){
     const {isIoDetected, sockets, selectedSocket, timeTick, selectSocket} = this.props;
-    console.log('HEADER', sockets, Object.keys(sockets), this.props);
+    //console.log('HEADER', sockets, Object.keys(sockets), this.props);
     return (
       <div styleName="header">
         <Sockets selectSocket={selectSocket}/>
@@ -26,7 +26,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = function(state){
-  console.log('header', state.updates.sockets);
+  //console.log('header', state.updates.sockets);
   return ({
     sockets: state.updates.sockets,
     isIoDetected: state.updates.isIoDetected,

@@ -8,7 +8,7 @@ import Socket from './Socket';
 class Sockets extends React.Component {
   render(){
     const sockets = this.props.sockets;
-    console.log('rendering:', sockets);
+    //console.log('rendering:', sockets);
       return (
         <div styleName="sockets">
           {this.renderSockets(sockets)}
