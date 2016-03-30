@@ -28,10 +28,12 @@
   "dependencies": {
     "classnames": "^2.2.3",
     "component-emitter": "^1.2.0",
+    "react": "^0.14.8",
     "react-dom": "^0.14.7",
     "react-highlight": "^0.7.0",
     "react-highlighter": "^0.3.1",
     "react-redux": "^4.4.0",
+    "react-virtualized": "^6.0.2",
     "redux": "^3.3.1",
     "socket.io-parser": "^2.2.6"
   }
