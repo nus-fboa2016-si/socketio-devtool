@@ -10,33 +10,20 @@ class PacketList extends React.Component {
 		super(props)
 
 		this.rowPacketRenderer = this.rowPacketRenderer.bind(this)
+		this.state = { active: -1 }
 	}
-	
-	// renderPacketList(packets) {
-	// 	let packetList = [];
-	// 	for (var i = 0; i < packets.length; i++) {
-	// 		let packet = packets[i];
-	// 		packetList.push(
-	// 			<Packet key={packet.id}
-	// 							packet={packet}
-	// 							onClick={this.props.onPacketClick.bind(this, packet)}
-	// 							selected={packet === this.props.selectedPacket}
-	// 			/>
-	// 		)
-	// 	}
-
-	// 	return packetList
-	// }
 
 	render() {
 		return (
-			<AutoSizer>
+			<AutoSizer ref='AutoSizer'>
 				{({ width, height }) => (
 					<VirtualScroll
+						ref='VirtualScroll'
 						className={styles.list}
 						width={width}
 						height={height}
 						rowsCount={this.props.packets.length}
+						overscanRowsCount={10}
 						rowHeight={33}
 						rowRenderer={this.rowPacketRenderer}
 					/>
@@ -47,13 +34,20 @@ class PacketList extends React.Component {
 
 	rowPacketRenderer(index) {
 		let packet = this.props.packets[index]
+
 		return (
 			<Packet key={packet.id}
 							packet={packet}
-							onClick={this.props.onPacketClick.bind(this, packet)}
-							selected={packet === this.props.selectedPacket}
+							onClick={this.handlePacketClick.bind(this, packet)}
+							selected={packet.id === this.state.active}
 			/>
 		)
+	}
+
+	handlePacketClick(packet) {
+		this.setState({ active: packet.id })
+		this.refs.AutoSizer.refs.VirtualScroll.recomputeRowHeights()
+		this.props.onPacketClick(packet)
 	}
 }
 
