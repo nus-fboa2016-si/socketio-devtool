@@ -10,13 +10,16 @@ const mapStateToProps = (state) => {
 
 	for (var i = 0; i < state.updates.packets.length; i++) {
 		let packet = state.updates.packets[i]
-		let packetData = JSON.stringify(packet.data[1], null, 2).toLowerCase()
+		let packetData = (packet.data[1] === undefined)? 
+											undefined :
+											JSON.stringify(packet.data[1], null, 2).toLowerCase()
+
 		if (selectedSocket.url === packet.url && 
 			  selectedSocket.nsp === packet.nsp &&
 				selectedSocket.sid === packet.sid) {
 			if (keyword.length <= 0) {
 				packets.push(packet)
-			} else if (~packetData.indexOf(keyword)) {
+			} else if (packetData && ~packetData.indexOf(keyword)) {
 	      packets.push(packet)
 	    }
 		}

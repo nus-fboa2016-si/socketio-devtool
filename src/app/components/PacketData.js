@@ -7,6 +7,14 @@ import Highlighter from 'react-highlighter'
 class PacketData extends React.Component {
 	renderPacketData(packet) {
 		if (Object.keys(packet).length > 0) {
+			if (packet.data[1] === undefined) {
+				return (
+					<div styleName="packet-data-no-content">
+						&lt;NO CONTENT&gt;
+					</div>
+				)
+			}
+
 			let packetData = JSON.stringify(packet.data[1], null, 2)
 
 			return (
