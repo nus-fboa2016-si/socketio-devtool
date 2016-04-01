@@ -1,6 +1,6 @@
 {
   "name": "Socket.io Devtool(alpha)",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Developer tools for Socket.io",
   "devtools_page": "devtoolsBackground.html",
   "manifest_version": 2,
