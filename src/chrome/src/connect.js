@@ -90,7 +90,7 @@ messenger.run = function() {
         switch(data.type){
           case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
           case 2: addToBuffer('create', generateContentPacket(url, timestamp, sid, data)); break;
-          //case 2: messenger.emit('packetCreate', generateContentPacket(url, timestamp, sid, data)); break;
+          case 5: addToBuffer('create', generateContentPacket(url, timestamp, sid, data)); break;
           default:
             return;
         }
@@ -117,7 +117,7 @@ messenger.run = function() {
           case 0: messenger.emit('socket', generateNewSocketPacket(url, timestamp, sid, data)); break;
           case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
           case 2: addToBuffer('receive', generateContentPacket(url, timestamp, sid, data)); break;
-          //case 2: messenger.emit('packetRcv', generateContentPacket(url, timestamp, sid, data));
+          case 5: addToBuffer('receive', generateContentPacket(url, timestamp, sid, data)); break;
           default: return;
         }
 
