@@ -19,6 +19,7 @@ messenger.run = function() {
   });
 
   backgroundPageConnection.onMessage.addListener(function (message) {
+    if(message.type==='packetCreate') console.log(message);
     switch (message.type) {
       case 'connect':
         handleConnect(message.message);
@@ -78,9 +79,14 @@ messenger.run = function() {
         //ping packet, ignore
         return;
       }
+      if(packet.isBin){
+        var rcvData = JSON.parse(packet.data);
+        packet.data = new Uint8Array(rcvData.data).buffer;
+      }
+      console.log('packet', packet);
       Parser.decode(packet.data, function (url, timestamp, sid, data) {
 
-        //console.log(url, timestamp, sid, data);
+        console.log(url, timestamp, sid, data);
         switch(data.type){
           case 1: messenger.emit('close', generateClosePacket(url, timestamp, sid, data)); break;
           case 2: addToBuffer('create', generateContentPacket(url, timestamp, sid, data)); break;
@@ -101,6 +107,10 @@ messenger.run = function() {
       if (!packet.data) {
         //ping packet, ignore
         return;
+      }
+      if(packet.isBin){
+        var rcvData = JSON.parse(packet.data);
+        packet.data = new Uint8Array(rcvData.data).buffer;
       }
       Parser.decode(packet.data, function (url, timestamp, sid, data) {
         switch(data.type){
