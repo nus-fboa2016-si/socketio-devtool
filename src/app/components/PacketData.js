@@ -14,8 +14,33 @@ class PacketData extends React.Component {
 					</div>
 				)
 			}
-
-			let packetData = JSON.stringify(packet.data[1], null, 2)
+			var packetData;
+			if(typeof packet.data[1] === 'string') {
+				packetData = JSON.stringify(packet.data[1], null, 2)
+			}else{
+				//binary data
+				var redacted = false;
+				var encodedData = new Uint8Array(packet.data[1]);
+				if(encodedData.length > 64){
+					encodedData = new Uint8Array(packet.data[1], 0, 64);
+					redacted = true;
+				}
+				encodedData = encodedData.reduce(function(prevVal, currentVal, index){
+					var val = currentVal.toString(16).toUpperCase();
+					if(val.length === 1) val = '0' + val;
+					if((index+1)%8 === 0){
+						return prevVal + val + '\n';
+					}
+					if((index+1)%4 === 0){
+						return prevVal + val + '  ';
+					}
+					if((index+1)%2 === 0){
+						return prevVal + val + ' ';
+					}
+					return prevVal + val;
+				}, '');
+				packetData = encodedData + (redacted ? '...' : '');
+			}
 
 			return (
 				<Highlight styleName='packet-data'>

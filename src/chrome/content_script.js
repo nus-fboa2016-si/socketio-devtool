@@ -5,11 +5,7 @@ var content_script_start = function() {
     var message = event.data;
     if (event.data.type == '__SOCKETIO_DEVTOOL__') {
        if(message.data.data && (isBuf(message.data.data) || message.data.data.base64)){
-         data = {
-           data: new Uint8Array(message.data.data),
-           contentType: 'Uint8Array'
-         };
-         message.data.data = JSON.stringify(data);
+         message.data.data = btoa(Uint8ToString(new Uint8Array(message.data.data)));
          message.data.isBin = true;
        }
       // console.log('si msg', message.data);
@@ -26,3 +22,12 @@ var isBuf = function(obj) {
   return (window.Buffer && window.Buffer.isBuffer(obj)) ||
     (window.ArrayBuffer && obj instanceof ArrayBuffer);
 };
+
+var Uint8ToString = function(u8a){
+  var CHUNK_SZ = 0x8000;
+  var c = [];
+  for (var i=0; i < u8a.length; i+=CHUNK_SZ) {
+    c.push(String.fromCharCode.apply(null, u8a.subarray(i, i+CHUNK_SZ)));
+  }
+  return c.join("");
+}

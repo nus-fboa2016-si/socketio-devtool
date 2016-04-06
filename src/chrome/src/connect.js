@@ -80,8 +80,8 @@ messenger.run = function() {
         return;
       }
       if(packet.isBin){
-        var rcvData = JSON.parse(packet.data);
-        packet.data = new Uint8Array(rcvData.data).buffer;
+        packet.data = new Uint8Array(atob(packet.data).split("").map(function(c) {
+          return c.charCodeAt(0); })).buffer;
       }
       console.log('packet', packet);
       Parser.decode(packet.data, function (url, timestamp, sid, data) {
@@ -109,8 +109,8 @@ messenger.run = function() {
         return;
       }
       if(packet.isBin){
-        var rcvData = JSON.parse(packet.data);
-        packet.data = new Uint8Array(rcvData.data).buffer;
+        packet.data = new Uint8Array(atob(packet.data).split("").map(function(c) {
+          return c.charCodeAt(0); })).buffer;
       }
       Parser.decode(packet.data, function (url, timestamp, sid, data) {
         switch(data.type){
