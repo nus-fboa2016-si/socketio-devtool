@@ -23,3 +23,13 @@
 	padding-left: 5px;
 	padding-top: 10px;
 }
+
+.packet-data-binary {
+	font-size: 1.5em;
+	margin-left: 10px;
+	white-space: pre-wrap;       /* CSS 3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}

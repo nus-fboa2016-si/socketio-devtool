@@ -3,6 +3,7 @@ import CSSModules from 'react-css-modules'
 import styles from '../styles/packet_data.scss'
 import Highlight from 'react-highlight'
 import Highlighter from 'react-highlighter'
+import { isBuf } from '../../utils'
 
 class PacketData extends React.Component {
 	renderPacketData(packet) {
@@ -14,32 +15,49 @@ class PacketData extends React.Component {
 					</div>
 				)
 			}
-			var packetData;
-			if(typeof packet.data[1] === 'string') {
-				packetData = JSON.stringify(packet.data[1], null, 2)
-			}else{
-				//binary data
-				var redacted = false;
-				var encodedData = new Uint8Array(packet.data[1]);
-				if(encodedData.length > 64){
+
+			let packetData;
+
+			// Render binary data in hex format
+			if (isBuf(packet.data[1])) {
+				let redacted = false;
+				let encodedData = new Uint8Array(packet.data[1]);
+
+				if (encodedData.length > 64) {
 					encodedData = new Uint8Array(packet.data[1], 0, 64);
 					redacted = true;
 				}
-				encodedData = encodedData.reduce(function(prevVal, currentVal, index){
-					var val = currentVal.toString(16).toUpperCase();
-					if(val.length === 1) val = '0' + val;
-					if((index+1)%8 === 0){
+
+				encodedData = encodedData.reduce(function(prevVal, currentVal, index) {
+					let val = currentVal.toString(16).toUpperCase();
+					if (val.length === 1) val = '0' + val;
+					if ((index + 1) % 8 === 0) {
 						return prevVal + val + '\n';
 					}
-					if((index+1)%4 === 0){
+					if ((index + 1) % 4 === 0) {
 						return prevVal + val + '  ';
 					}
-					if((index+1)%2 === 0){
+					if ((index + 1) % 2 === 0) {
 						return prevVal + val + ' ';
 					}
 					return prevVal + val;
 				}, '');
+
 				packetData = encodedData + (redacted ? '...' : '');
+
+				return (
+					<div styleName='packet-data-binary'>
+						<Highlighter search={this.props.searchQuery} 
+												 matchStyle={{ backgroundColor: '#00ff00' }}>
+							{packetData}
+						</Highlighter>
+					</div>
+				)
+			}
+
+			// Render object data
+			if (typeof packet.data[1] === 'object') {
+				packetData = JSON.stringify(packet.data[1], null, 2)
 			}
 
 			return (

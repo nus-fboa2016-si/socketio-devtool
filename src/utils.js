@@ -64,3 +64,8 @@ export function dateFromNow(timestamp) {
 		} 
 	}
 }
+
+export function isBuf(obj) {
+	return (window.Buffer && window.Buffer.isBuffer(obj)) ||
+    (window.ArrayBuffer && obj instanceof ArrayBuffer);
+}
