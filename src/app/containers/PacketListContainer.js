@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { selectPacket } from '../actions/selectActions'
 import PacketList from '../components/PacketList'
+import { isBuf } from '../../utils'
 
 const mapStateToProps = (state) => {
 	const keyword = state.updates.keyword.toLowerCase()
@@ -10,9 +11,18 @@ const mapStateToProps = (state) => {
 
 	for (var i = 0; i < state.updates.packets.length; i++) {
 		let packet = state.updates.packets[i]
-		let packetData = (packet.data[1] === undefined)? 
-											undefined :
-											JSON.stringify(packet.data[1], null, 2).toLowerCase()
+		let packetData
+		if (packet.data[1] === undefined) {
+			packetData = undefined;
+		} else if (isBuf(packet.data[1])) {
+			let encodedData = new Uint8Array(packet.data[1])
+			if (encodedData.length > 64) {
+				encodedData = new Uint8Array(packet.data[1], 0, 64);
+			}
+			packetData = encodedData.join('')
+		} else if (typeof packet.data[1] === 'object') {
+			packetData = JSON.stringify(packet.data[1], null, 2).toLowerCase()
+		}
 
 		if (selectedSocket.url === packet.url && 
 			  selectedSocket.nsp === packet.nsp &&
