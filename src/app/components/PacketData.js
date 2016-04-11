@@ -56,7 +56,7 @@ class PacketData extends React.Component {
 			}
 
 			// Render object data
-			if (typeof packet.data[1] === 'object') {
+			if (typeof packet.data[1] === 'object' || typeof packet.data[1] === 'number' || typeof packet.data[1] === 'string') {
 				packetData = JSON.stringify(packet.data[1], null, 2)
 			}
 
